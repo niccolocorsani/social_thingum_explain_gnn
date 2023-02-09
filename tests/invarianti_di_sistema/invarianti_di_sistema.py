@@ -1,6 +1,6 @@
 from unittest import TestCase
 import torch
-from model_ml import shap, allAlberto, ModelGAT1
+from model_ml import  allAlberto, ModelGAT1, predict_with_GNN
 from utility import read_data
 import torch_geometric.transforms as T
 
