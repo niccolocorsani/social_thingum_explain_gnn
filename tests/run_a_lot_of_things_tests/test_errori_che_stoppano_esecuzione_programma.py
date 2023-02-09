@@ -1,6 +1,6 @@
 import unittest
 
-from business_logic.main import run_every_things
+from main import run_every_things
 
 
 class TestBuildTree(unittest.TestCase):

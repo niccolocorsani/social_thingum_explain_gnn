@@ -1,7 +1,7 @@
 from unittest import TestCase
 import torch
-from  business_logic.model_ml import allAlberto, ModelGAT1, predict_with_GNN
-from  business_logic.utility import read_data
+from model_ml import  allAlberto, ModelGAT1, predict_with_GNN
+from utility import read_data
 import torch_geometric.transforms as T
 
 
