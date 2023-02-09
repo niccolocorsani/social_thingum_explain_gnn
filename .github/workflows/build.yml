@@ -15,9 +15,10 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Execute Tests
-        run: |
-          cd tests
-          python -m unittest discover
+        run:     python -m unittest discover tests
+
+
+
 
 
       - name: SonarCloud Scan
