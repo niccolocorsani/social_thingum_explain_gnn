@@ -1,11 +1,11 @@
 import unittest
 
-import main
+from main import run_every_things
 
 
 class TestBuildTree(unittest.TestCase):
   def test_generate_tree_dict(self):
-    main.run_every_things()
+    run_every_things()
 
 
 if __name__ == '__main__':
