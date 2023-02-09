@@ -1,0 +1,140 @@
+@prefix : <http://www.disit.org/saref4bldg-ext/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.disit.org/saref4bldg-ext/> .
+
+<http://www.disit.org/saref4bldg-ext/> rdf:type owl:Ontology ;
+                                        owl:imports <https://saref.etsi.org/saref4bldg/v1.1.2/> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.disit.org/saref4bldg-ext/canMeasureIn
+:canMeasureIn rdf:type owl:ObjectProperty ;
+              rdfs:comment "A relation between a sensor and the unit of measurement in which the sensor measurement is expressed." ;
+              rdfs:label "canMeasureIn" .
+
+
+###  http://www.disit.org/saref4bldg-ext/endIn
+:endIn rdf:type owl:ObjectProperty ;
+       rdfs:comment "The Physical Object into which the Flow end." ;
+       rdfs:label "endIn" .
+
+###  http://www.disit.org/saref4bldg-ext/to
+:to rdf:type owl:ObjectProperty ;
+       rdfs:label "to" .
+
+
+
+###  http://www.disit.org/saref4bldg-ext/startIn
+:startIn rdf:type owl:ObjectProperty ;
+         rdfs:comment "The Physical Object from which the Flow start." ;
+         rdfs:label "startIn" .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.disit.org/saref4bldg-ext/color
+:color rdf:type owl:DatatypeProperty ;
+       rdfs:comment "Color of a PhysicalObject or Flow's illustrative color." ;
+       rdfs:label "color" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.disit.org/saref4bldg-ext/Area
+:Area rdf:type owl:Class ;
+      rdfs:subClassOf <https://saref.etsi.org/saref4bldg/BuildingSpace> ;
+      rdfs:comment "A Site can be divided in areas." ;
+      rdfs:label "Area" .
+
+
+###  http://www.disit.org/saref4bldg-ext/ChemicalCompound
+:ChemicalCompound rdf:type owl:Class ;
+                  rdfs:subClassOf :Flow ;
+                  rdfs:comment "Any sort of Chemical Compounds that flow between Physical Object," ;
+                  rdfs:label "ChemicalCompound" .
+
+
+###  http://www.disit.org/saref4bldg-ext/Container
+:Container rdf:type owl:Class ;
+           rdfs:subClassOf <https://saref.etsi.org/saref4bldg/Tank> .
+
+
+###  http://www.disit.org/saref4bldg-ext/Energy
+:Energy rdf:type owl:Class ;
+        rdfs:subClassOf :Flow ;
+        rdfs:comment "Any sort of Energy used or producted by a Phisycal Object." ;
+        rdfs:label "Energy" .
+
+
+###  http://www.disit.org/saref4bldg-ext/Flow
+:Flow rdf:type owl:Class ;
+      rdfs:subClassOf [ rdf:type owl:Restriction ;
+                        owl:onProperty :endIn ;
+                        owl:allValuesFrom <https://saref.etsi.org/saref4bldg/PhysicalObject>
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :startIn ;
+                        owl:allValuesFrom <https://saref.etsi.org/saref4bldg/PhysicalObject>
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :endIn ;
+                        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass <https://saref.etsi.org/saref4bldg/PhysicalObject>
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :startIn ;
+                        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass <https://saref.etsi.org/saref4bldg/PhysicalObject>
+                      ] ;
+      rdfs:comment "A generic Flow from and to a Physical Object, usually achived with pipes." ;
+      rdfs:label "Flow" .
+
+
+###  http://www.disit.org/saref4bldg-ext/ProductionLine
+:ProductionLine rdf:type owl:Class ;
+                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                  owl:onProperty <https://saref.etsi.org/saref4bldg/contains> ;
+                                  owl:allValuesFrom <https://saref.etsi.org/saref4bldg/PhysicalObject>
+                                ] ;
+                rdfs:comment "A Production Line of an industry." ;
+                rdfs:label "ProductionLine" .
+
+
+###  http://www.disit.org/saref4bldg-ext/Reactor
+:Reactor rdf:type owl:Class ;
+         rdfs:subClassOf <https://saref.etsi.org/saref4bldg/FlowStorageDevice> .
+
+
+###  http://www.disit.org/saref4bldg-ext/Site
+:Site rdf:type owl:Class ;
+      rdfs:subClassOf <https://saref.etsi.org/saref4bldg/BuildingSpace> ;
+      rdfs:comment "A Building can be divided in sites." ;
+      rdfs:label "Site" .
+
+
+###  http://www.disit.org/saref4bldg-ext/Water
+:Water rdf:type owl:Class ;
+       rdfs:subClassOf :Flow ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty <https://saref.etsi.org/saref4bldg/waterPressureMax> ;
+                         owl:allValuesFrom <https://saref.etsi.org/core/Measurement>
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty <https://saref.etsi.org/saref4bldg/waterPressureMin> ;
+                         owl:allValuesFrom <https://saref.etsi.org/core/Measurement>
+                       ] ;
+       rdfs:comment "Water Flow from and to a Physical Object." ;
+       rdfs:label "Water" .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
