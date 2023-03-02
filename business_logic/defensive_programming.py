@@ -9,7 +9,6 @@ class DefensiveProgramming(QMessageBox):
     self.app = QApplication(sys.argv)
     super(QMessageBox, self).__init__()
 
-
   ## Questa funzione valura se effettivamente è stato trainato correttamente il modello, altrimenti da errore
   def evaluate(self, test_data, model):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -23,3 +22,10 @@ class DefensiveProgramming(QMessageBox):
     if abs(media_trainato - media_non_trainato) < 0.1:
       msgBox.setText("differenza media_trainato e non trainato < 0.1")
       msgBox.exec()
+  @staticmethod
+  def launch_allert(self, text_alert):
+    msgBox = QMessageBox()
+    msgBox.setText(text_alert)
+    msgBox.exec()
+
+

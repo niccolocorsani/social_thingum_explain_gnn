@@ -77,6 +77,7 @@ def allAlberto(data):
 
   def loss_custom(pred, target):
     loss = 0
+
     for i in range(0, len(pred)):
       loss += loss_fn(pred[i], target[i])
     return loss / len(pred)
@@ -86,6 +87,8 @@ def allAlberto(data):
     optimizer.zero_grad()
     pred, alpha = model(train_data.x_dict, train_data.edge_index_dict,  ## Questo alpha è quello dell'attenzione
                         train_data['user', 'movie'].edge_label_index)
+
+
     target = train_data['user', 'movie'].edge_label
 
     loss = loss_custom(pred, target)

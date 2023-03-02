@@ -10,6 +10,8 @@ def readIntFromFile(filename):
   with open(filename, 'r') as f:
     content = f.read()
   return content
+
+
 def readTensorFromFile(filename):
   with open(filename, 'r') as f:
     contents = f.read()
@@ -17,12 +19,14 @@ def readTensorFromFile(filename):
     mytensor = torch.tensor(eval(contents))
 
   return mytensor
+
+
 def write_to_graph_format(edge_index, fileName):
   with open(fileName, "w") as file:
     file.write("")
   for i in range(edge_index.shape[1] - 1):
     s = edge_index[0, i].item()
-    o = edge_index[1, i + 1].item()
+    o = edge_index[1, i].item()
 
     with open(fileName, "a") as file:
       if i == 0:
@@ -35,12 +39,35 @@ def write_to_graph_format(edge_index, fileName):
       else:
         file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(
           o) + '\"},\n')  ## JSON hanno bisogno delle virgolette nella key
-def read_data():
 
+
+def write_to_csv_format_user_rate_movie(edge_index, edge_label, fileName):
+  with open(fileName, "w") as file:
+    file.write("")
+  for i in range(edge_index.shape[1] - 1):
+    s = edge_index[0, i].item()
+    p = edge_label[i]
+    o = edge_index[1, i + 1].item()  ##TODO attenzione perchè ho messo i + 1
+
+    with open(fileName, "a") as file:
+      if i == 0:
+        file.write('[')
+        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(o) + '\"},\n')
+      if i == (edge_index.shape[
+                 1] - 2):
+        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(o) + '\"}\n')
+        file.write(']')
+      else:
+        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(
+          o) + '\"},\n')  ## JSON hanno bisogno delle virgolette nella key
+
+
+def read_data():
   device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
   movie_x = readTensorFromFile(ROOT_DIR + "/output_alberto/movie_x.txt")
   edge_label = readTensorFromFile(ROOT_DIR + "/output_alberto/edge_label.txt")
   edge_index = readTensorFromFile(ROOT_DIR + "/output_alberto/edge_index.txt")
+
   movie_len = readIntFromFile(ROOT_DIR + "/output_alberto/movies_len.txt")
   users_len = readIntFromFile(ROOT_DIR + "/output_alberto/users_len.txt")
 
@@ -68,6 +95,8 @@ def read_data():
   data = data.to(device)
 
   return data, edge_index
+
+
 def removeFilesFromFolder(folderName):
   import os
   import shutil
@@ -82,3 +111,6 @@ def removeFilesFromFolder(folderName):
     except Exception as e:
       print('Failed to delete %s. Reason: %s' % (file_path, e))
 
+
+if __name__ == '__main__':
+  read_data()

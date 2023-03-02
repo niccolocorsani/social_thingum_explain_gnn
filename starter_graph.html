@@ -26,8 +26,8 @@
 <script>
 
   // set a width and height for our SVG
-  var width = 6000,
-    height = 8000;
+  var width = 50000,
+    height = 70000;
   var links
   var files
 
@@ -35,13 +35,12 @@
   async function readData() {
 
     try {
-      for (i = 0; i < 200; i++) {
-        await d3.json("edge_index_of_final_leaf_graphs/" + String(i) + ".txt", function (data) {
+        await d3.json("starter_graph.txt", function (data) {
           links = data
           console.log(data);
           createGraph(data)
         });
-      }
+
     } catch (err) {
       console.log(err);
     }
@@ -73,20 +72,19 @@
       .text('-------------------------------------------------------------------------------------------------------------------------------------------')
       .style("font-size", "150px")
       .append('svg')
-      .attr('transform', 'scale(0.7)')
-      .style('border', '1px solid black')
+      .attr('transform', 'scale(0.3)')
       .attr('width', width)
       .attr('height', height)
 
 
     // use the force
     var force = d3.layout.force()
-      .charge(-10000)
+      .charge(-16000)
       .size([width, height])
       .nodes(d3.values(nodes))
       .links(links)
       .on("tick", tick)
-      .linkDistance(600)
+      .linkDistance(12000)
       .start();
 
     // add links
