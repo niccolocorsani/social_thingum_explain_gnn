@@ -18,18 +18,17 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def convert_log_to_json(log_file_path, json_file_path):
   with open(log_file_path, 'r') as f:
     logs = f.read().split('\n\n')
-
+####TODO Perhcè prende sempre gli stessi valori ??
   results = []
   for log in logs:
     if not log:
       continue
-    log_dict = {}
     lines = log.strip().split('\n')
     for line in lines:
       values = line.strip().split(';')
+      log_dict = {}
 
       for element in values:
-
         key = element.split(":")[0]
         value = element.split(":")[1]
         if key == 'edge_index':
@@ -45,7 +44,6 @@ def convert_log_to_json(log_file_path, json_file_path):
           # dalle righe della matrice originale. La funzione map() applica la funzione list() a ogni tupla,
           # in modo da convertire le tuple in liste. Infine, la funzione list() converte il risultato in una lista.
           value = transposed_matrix
-
         elif key == 'index_prediction_to_evaluate':
           value = int(value)
         elif key == 'nodes_corresponding_to_index_prediction_to_evaluate':
