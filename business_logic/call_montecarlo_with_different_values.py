@@ -32,14 +32,14 @@ if __name__ == '__main__':
 
 
   deepnes = 2
-  min_edges = 5
+  min_edges = 4
 
   for i in range(100):
 
     print(i)
 
-    deepnes = deepnes + i
-    min_edges = min_edges + i
+    deepnes = deepnes + 1
+  #  min_edges = min_edges + i
 
     monte_carlo = MonteCarlo(heterodata=data, edge_index=edge_index, deepnes_of_node_expansion=int(deepnes),
                              min_graph_number_of_edges=int(min_edges), model=model,
