@@ -221,10 +221,12 @@ class MainWindow(QMainWindow):
 
     utility.write_to_graph_format(self.edge_index,ROOT_DIR + "/starter_graph.txt")
 
+    brothers = self.number_of_brothers.text()
+
     ## Poichè quando viene fatto subgraph si rompe un po tutto, l'idea è che gli viene passato il data prinicpale e edge_index e non verrà modificato mai data, ma verrà creato new_data
     monte_carlo = MonteCarlo(heterodata=self.data, edge_index=self.edge_index, deepnes_of_node_expansion=int(deepnes),
                              min_graph_number_of_edges=int(min_edges), model=self.model,
-                             prediction_to_evaluate_index=int(prediction_index), edge=edge, number_of_brother=self.number_of_brothers)
+                             prediction_to_evaluate_index=int(prediction_index), edge=edge, number_of_brother=int(brothers))
     win_dic, list_of_final_dic = monte_carlo.search()
     # Call the backend with the specified parameters and display the output in the text area
     self.output_text.append('deepnes_of_node_expansion: ' + deepnes + '\n')

@@ -13,6 +13,9 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import torch
 
 
+
+
+
 ## Da rimuovere in produzione
 def verifica_colonna(tensore, colonna):
   colonna = torch.stack(colonna).reshape(-1, 1)
@@ -263,7 +266,7 @@ class MonteCarlo:
     self.list_of_final_leaf_graph.append({'edge_index': edge_index, 'win': win})
     self.tree = self.back_propagate(self.tree, parent_node_id, win)
 
-    return
+    return diff
 
   def back_propagate(self, tree, node_id, win):
 
@@ -314,7 +317,7 @@ class MonteCarlo:
       self.node_expansion(current_root_node_id=root_node_id)
       for i in range(len(self.edge_index[1])):
         best_child_id = self.select_child(self.tree, root_node_id)
-        self.simulation_montecarlo(node_id=best_child_id,
+        difference_in_prediction =self.simulation_montecarlo(node_id=best_child_id,
                                    edge_index=self.edge_index)
         iterations = iterations + 1
         if iterations % 10 == 0:
@@ -327,14 +330,25 @@ class MonteCarlo:
     utility.write_to_graph_format(win_dic['edge_index'],
                                   ROOT_DIR + '/winner_graph' + '.txt')
 
-    with open(ROOT_DIR + '/log_esito_montecarlo.txt', mode='a') as f:
+
+
+
+
+
+
+
+
+
+#### TODO levare il diff dalla scrittura e dal progetto in generale
+#### TODO è normale che diff sia incoerente con win, win_dic fa riferimento al miglior dizionario, diff fa riferimento all'ultimo valore ritornato win_dic a diff
+    with open(ROOT_DIR + '/log_esito_montecarlo_1.0.1.txt', mode='a') as f:
       f.write('edge_index: ' + str(win_dic['edge_index']).replace("\n", "") + ';index_prediction_to_evaluate: ' + str(
         self.prediction_to_evaluate_index).replace("\n",
                                                    "") + ';nodes_corresponding_to_index_prediction_to_evaluate: ' + str(
         self.edge[0].item()).replace("\n", "") + ',' + str(self.edge[1].item()).replace("\n",
                                                                                         "") + ';min_number_of_edges: ' + str(
         self.min_graph_number_of_edges).replace("\n", "") + ';deepnes_of_node_expansion: ' + str(
-        self.deepnes_of_node_expansion).replace("\n", "") + ';win: ' + str(win_dic['win']).replace("\n", "") +';number_of_brother: '+str(self.number_of_brother) +'\n')
+        self.deepnes_of_node_expansion).replace("\n", "") + ';win: ' + str(win_dic['win']).replace("\n", "") +';difference_in_prediction: '+str(difference_in_prediction)+';number_of_brother: '+str(self.number_of_brother) +'\n')
 
     ## Controllo così da levare in produzione
     if win_dic['edge_index'].shape != (2, self.min_graph_number_of_edges):

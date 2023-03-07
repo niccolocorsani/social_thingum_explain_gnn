@@ -72,10 +72,10 @@ def run_every_things():
   print(f"Execution time for all data: {end_time - start_time} seconds")
   print(len(prediction))
 
-  ## Poichè quando viene fatto subgraph si rompe un po tutto, l'idea è che gli viene passato il data prinicpale e edge_index e non verrà modificato mai data, ma verrà creato new_data
-  # monte_carlo = MonteCarlo(heterodata=data, edge_index=edge_index, deepnes_of_node_expansion=10, model=model,
-  #                          prediction_to_evaluate_index=4, min_graph_number_of_edges=6)
-  # monte_carlo.search()
+  # Poichè quando viene fatto subgraph si rompe un po tutto, l'idea è che gli viene passato il data prinicpale e edge_index e non verrà modificato mai data, ma verrà creato new_data
+  monte_carlo = MonteCarlo(heterodata=data, edge_index=edge_index, deepnes_of_node_expansion=10, model=model,
+                           prediction_to_evaluate_index=1, min_graph_number_of_edges=6, number_of_brother=1000000, edge=[torch.tensor(0),torch.tensor(1)])
+  monte_carlo.search()
 
   print('fine')
 
