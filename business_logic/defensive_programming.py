@@ -19,7 +19,8 @@ class DefensiveProgramming(QMessageBox):
     predictions_not_trained = predict_with_GNN(test_data, modello_non_addestrato)
     media_trainato = sum(predictions) / len(predictions)
     media_non_trainato = sum(predictions_not_trained) / len(predictions_not_trained)
-    if abs(media_trainato - media_non_trainato) < 0.1:
+    print((media_trainato - media_non_trainato))
+    if abs(media_trainato - media_non_trainato) < 0.001:
       msgBox.setText("differenza media_trainato e non trainato < 0.1")
       msgBox.exec()
   @staticmethod

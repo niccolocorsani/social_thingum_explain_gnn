@@ -1,16 +1,15 @@
 import os
 import random
+from datetime import datetime
 from math import sqrt, log
-import torch
-
 import defensive_programming
 import utility
-from utility import write_to_graph_format, removeFilesFromFolder
 from model_ml import predict_with_GNN
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-import torch
+
+
 
 
 
@@ -138,12 +137,24 @@ class MonteCarlo:
     data = self.data.clone()  ## A ogni nuova simulazione di montecarlo si riparte con il grafo originale
     list_of_index = list(range(len(edge_index[0])))
 
+
+####TODO da mettere controlli a destra e sinistra
+##TODO qui va tagliato l'edge_index levandogli i nodi che compaiono nella stringa node_id
+
+    print('prima'+str((len(edge_index[0]))))
+    list_of_edges_to_remove = node_id.split('_')
+    print(str(len(list_of_edges_to_remove)))
+    list_of_edges_to_remove = list(map(int, list_of_edges_to_remove))
+    list_of_edges_to_keep = [x for x in list_of_index if x not in list_of_edges_to_remove]
+    edge_index = edge_index[:, list_of_edges_to_keep]
+    print('levato'+str((len(edge_index[0]))))
+
+####################################################################
+
     while edge_index.shape[1] > self.min_graph_number_of_edges:
 
       len_edge_prima = len(edge_index[0])  # da rimuovere in produzione
-
       edge_index, index = self.remove_random_nodes_payng_attention_to_not_remove_nodes_of_edge(edge_index, self.edge)
-
       try:
         list_of_index.pop(index)
       except:
@@ -263,10 +274,10 @@ class MonteCarlo:
       win = (8 + random_value)
 
 
-    self.list_of_final_leaf_graph.append({'edge_index': edge_index, 'win': win})
+    self.list_of_final_leaf_graph.append({'edge_index': edge_index, 'win': win, 'diff':diff})
     self.tree = self.back_propagate(self.tree, parent_node_id, win)
 
-    return diff
+    return
 
   def back_propagate(self, tree, node_id, win):
 
@@ -304,27 +315,21 @@ class MonteCarlo:
     self.tree[current_root_node_id] = {'win': 0, 'visited': 0, 'childrens_id': ids_of_children_format_with_under_score}
 
   def search(self):
-
-
     self.list_of_final_leaf_graph = []
-
     iterations = 0
     root_node_id = str(0)
 
     while len(root_node_id.split('_')) < self.deepnes_of_node_expansion:
-
-      print(len(self.edge_index[0]))
       self.node_expansion(current_root_node_id=root_node_id)
       for i in range(len(self.edge_index[1])):
         best_child_id = self.select_child(self.tree, root_node_id)
-        difference_in_prediction =self.simulation_montecarlo(node_id=best_child_id,
+        self.simulation_montecarlo(node_id=best_child_id,
                                    edge_index=self.edge_index)
         iterations = iterations + 1
-        if iterations % 10 == 0:
+        if iterations % 100 == 0:
           print(iterations)
       ## Cambio il root node e inizio la prima fase di Expansion
       root_node_id = self.select_child(self.tree, root_node_id)
-
     win_dic = max(self.list_of_final_leaf_graph,
                   key=lambda x: x['win'])
     utility.write_to_graph_format(win_dic['edge_index'],
@@ -341,14 +346,14 @@ class MonteCarlo:
 
 #### TODO levare il diff dalla scrittura e dal progetto in generale
 #### TODO è normale che diff sia incoerente con win, win_dic fa riferimento al miglior dizionario, diff fa riferimento all'ultimo valore ritornato win_dic a diff
-    with open(ROOT_DIR + '/log_esito_montecarlo_1.0.1.txt', mode='a') as f:
-      f.write('edge_index: ' + str(win_dic['edge_index']).replace("\n", "") + ';index_prediction_to_evaluate: ' + str(
+    with open(ROOT_DIR + '/log_esito_montecarlo.txt', mode='a') as f:
+      f.write('current_time: '+str(datetime.now())+';edge_index: ' + str(win_dic['edge_index']).replace("\n", "") + ';index_prediction_to_evaluate: ' + str(
         self.prediction_to_evaluate_index).replace("\n",
                                                    "") + ';nodes_corresponding_to_index_prediction_to_evaluate: ' + str(
         self.edge[0].item()).replace("\n", "") + ',' + str(self.edge[1].item()).replace("\n",
                                                                                         "") + ';min_number_of_edges: ' + str(
         self.min_graph_number_of_edges).replace("\n", "") + ';deepnes_of_node_expansion: ' + str(
-        self.deepnes_of_node_expansion).replace("\n", "") + ';win: ' + str(win_dic['win']).replace("\n", "") +';difference_in_prediction: '+str(difference_in_prediction)+';number_of_brother: '+str(self.number_of_brother) +'\n')
+        self.deepnes_of_node_expansion).replace("\n", "") + ';win: ' + str(win_dic['win']).replace("\n", "") +';difference_in_prediction: '+str(win_dic['diff'])+';number_of_brother: '+str(self.number_of_brother) +'\n')
 
     ## Controllo così da levare in produzione
     if win_dic['edge_index'].shape != (2, self.min_graph_number_of_edges):
