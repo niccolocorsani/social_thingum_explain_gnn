@@ -1,3 +1,4 @@
+import time
 import mysql.connector
 import pandas as pd
 from google.cloud import bigquery
@@ -53,8 +54,9 @@ def trasferisci_mysql_a_big_query():
 
   df = pd.read_sql_query('SELECT * FROM subgraph',
                          cnx)  ## TODO come si vede in questa riga, il df non prende bene una colonna che imposta tutti i valori a Nan.... Passare da dataframe a list normale
-  df = df.apply(pd.to_numeric, errors='coerce')
-
+  df = df.apply(lambda x: x if x.name == 'nodes_corresponding_to_index_prediction_to_evaluate' else pd.to_numeric(x,
+                                                                                                                  errors='coerce'),
+                axis=0)
   # Ottenere le informazioni sullo schema del dataframe pandas df
   columns = df.columns
   dtypes = df.dtypes
@@ -69,6 +71,8 @@ def trasferisci_mysql_a_big_query():
       field_type = 'INTEGER'
     if field_type == 'float64':
       field_type = 'FLOAT'
+    if field_type == 'object':
+      field_type = 'STRING'
 
     schema_field = bigquery.SchemaField(name=name, field_type=field_type)
     schema.append(schema_field)
@@ -79,17 +83,21 @@ def trasferisci_mysql_a_big_query():
   tables = client.list_tables(dataset_name)
 
   # Itera su ogni tabella e rimuovila
-  for table in tables:
-    table_ref = client.dataset(dataset_name).table(table.table_id)
-    client.delete_table(table_ref)
-    print(f'Tabella {table.table_id} rimossa dal dataset {dataset_name}')
+  # for table in tables:
+  #   table_ref = client.dataset(dataset_name).table(table.table_id)
+  #   client.delete_table(table_ref)
+  #   print(f'Tabella {table.table_id} rimossa dal dataset {dataset_name}')
 
+  # TODO se prima voglio eliminare la tabella e ricrearla, devo mettere un timeout lungo, se no non troverà la tabella nel codice seguente
+  # TODO Come work around attulae, prima di ogni esecuzione devo eliminare le tabelle a mano, fare run manuali finchè non l'ha creato ecc....
   table_ref = client.dataset('dataset_name').table('subgraph1')
   table = bigquery.Table(table_ref, schema=schema)
-  table = client.create_table(table)
+  #table = client.create_table(table)
+
 
   # Caricare i dati del dataframe pandas nella tabella di BigQuery
   rows_to_insert = df.values.tolist()
+
   errors = client.insert_rows(table, rows_to_insert)
 
   # Verificare che non ci siano errori durante l'inserimento dei dati
@@ -115,13 +123,16 @@ def trasferisci_mysql_a_big_query():
       field_type = 'INTEGER'
     if field_type == 'float64':
       field_type = 'FLOAT'
+    if field_type == 'object':
+      field_type = 'STRING'
 
     schema_field = bigquery.SchemaField(name=name, field_type=field_type)
     schema.append(schema_field)
 
   table_ref = client.dataset('dataset_name').table('edges1')
   table = bigquery.Table(table_ref, schema=schema)
-  table = client.create_table(table)
+  #table = client.create_table(table)
+
 
   # Caricare i dati del dataframe pandas nella tabella di BigQuery
   rows_to_insert = df.values.tolist()
@@ -134,11 +145,27 @@ def trasferisci_mysql_a_big_query():
     print('Si è verificato un errore durante l\'inserimento dei dati nell')
 
 
+
+
+
+  query = """
+          CREATE TABLE `dataset_name.join_subgraph_edges_filtered_by_edge`
+          AS
+          SELECT tabella1.id, tabella1.index_prediction_to_evaluate, tabella1.min_number_of_edges, tabella1.win, tabella1.nodes_corresponding_to_index_prediction_to_evaluate,tabella1.number_of_brother, tabella1.difference_in_prediction, tabella1.deepnes_of_node_expansion, tabella2.source_node ,tabella2.target_node
+          FROM `dataset_name.subgraph1` as tabella1
+          JOIN `dataset_name.edges1` as tabella2
+          ON tabella1.id = tabella2.subgraph_id
+          where tabella1.nodes_corresponding_to_index_prediction_to_evaluate = '[125, 32]';
+  """
+
+  # Esegui la query
+  query_job = client.query(query)
+
   # Definisci la tua query
   query = """
           CREATE TABLE `dataset_name.join_subgraph_edges`
           AS
-          SELECT tabella1.id, tabella1.index_prediction_to_evaluate, tabella1.min_number_of_edges, tabella1.win, tabella1.nodes_corresponding_to_index_prediction_to_evaluate,tabella1.number_of_brother, tabella2.source_node ,tabella2.target_node
+          SELECT tabella1.id, tabella1.index_prediction_to_evaluate, tabella1.min_number_of_edges, tabella1.win, tabella1.nodes_corresponding_to_index_prediction_to_evaluate,tabella1.number_of_brother, tabella1.difference_in_prediction, tabella1.deepnes_of_node_expansion, tabella2.source_node ,tabella2.target_node
           FROM `dataset_name.subgraph1` as tabella1
           JOIN `dataset_name.edges1` as tabella2
           ON tabella1.id = tabella2.subgraph_id;
@@ -148,6 +175,10 @@ def trasferisci_mysql_a_big_query():
   query_job = client.query(query)
 
   ##TODO da finire di collegare a looker studio in modo che automaticamente faccia l'update della tabella nel report
+
+
+
+
 
 
 if __name__ == '__main__':

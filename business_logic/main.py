@@ -1,6 +1,5 @@
 import os
 import time
-
 import model_ml
 import utility
 from defensive_programming import DefensiveProgramming

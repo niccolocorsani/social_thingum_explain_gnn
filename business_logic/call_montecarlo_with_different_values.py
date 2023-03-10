@@ -12,9 +12,12 @@ from utility import read_data, removeFilesFromFolder
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+
 if __name__ == '__main__':
 
-  prediction_index = 60
+
+  prediction_index = 20
   number_of_brothers = 2
 
   ## Cose da preprocessing
@@ -46,19 +49,21 @@ if __name__ == '__main__':
   deepnes = 2
   min_edges = 4
 
-  for i in range(20):
+  for i in range(50):
     print(i)
-
-    deepnes = deepnes + 1
-    # min_edges = min_edges + i
+    deepnes = deepnes + 10
+    #min_edges = min_edges + i
 
     monte_carlo = MonteCarlo(heterodata=data, edge_index=edge_index, deepnes_of_node_expansion=int(deepnes),
                              min_graph_number_of_edges=int(min_edges), model=model,
                              prediction_to_evaluate_index=int(prediction_index), edge=edge,
                              number_of_brother=number_of_brothers)
+
+
+
     win_dic, list_of_final_dic = monte_carlo.search()
 
   run_all_pipeline_to_update_my_sql()
-  trasferisci_mysql_a_big_query()
+  trasferisci_mysql_a_big_query()   ## Queste due righe che sono la fine della pipeline totale non possono ancora essere eseguite, perchè errore biguery table not found
 
   print('Fine')

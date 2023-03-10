@@ -57,6 +57,8 @@ def convert_log_to_json(log_file_path, json_file_path):
         elif key == 'win':
           value = float(value)
         elif key == 'difference_in_prediction':
+          value = float(value.replace('tensor(','').replace(')',''))
+        elif key == 'current_time':
           continue
         log_dict[key] = value
       results.append(log_dict)
@@ -97,7 +99,7 @@ def drop_all_tables(conn):
 def create_tables(conn):
   cursor = conn.cursor()
 
-  subgraph_schema = "CREATE TABLE IF NOT EXISTS subgraph (id INT AUTO_INCREMENT PRIMARY KEY, index_prediction_to_evaluate INT, nodes_corresponding_to_index_prediction_to_evaluate VARCHAR(255), min_number_of_edges INT, deepnes_of_node_expansion INT, win DECIMAL(10, 9),number_of_brother INT)"
+  subgraph_schema = "CREATE TABLE IF NOT EXISTS subgraph (id INT AUTO_INCREMENT PRIMARY KEY, index_prediction_to_evaluate INT, nodes_corresponding_to_index_prediction_to_evaluate VARCHAR(255), min_number_of_edges INT, deepnes_of_node_expansion INT, win DECIMAL(10, 9),number_of_brother INT, difference_in_prediction DECIMAL(10, 9))"
   cursor.execute(subgraph_schema)
 
   edges_schema = "CREATE TABLE IF NOT EXISTS edges (id INT AUTO_INCREMENT PRIMARY KEY, subgraph_id INT, source_node INT, target_node INT, FOREIGN KEY (subgraph_id) REFERENCES subgraph(id))"
@@ -119,9 +121,9 @@ def load_json_to_mysql(json_file, conn):
     nodes = json.dumps(item["nodes_corresponding_to_index_prediction_to_evaluate"])
     subgraph_values = (
     item["index_prediction_to_evaluate"], nodes, item["min_number_of_edges"], item["deepnes_of_node_expansion"],
-    item["win"], item['number_of_brother'])
+    item["win"], item['number_of_brother'], item['difference_in_prediction'])
     cursor.execute(
-      "INSERT INTO subgraph (index_prediction_to_evaluate, nodes_corresponding_to_index_prediction_to_evaluate, min_number_of_edges, deepnes_of_node_expansion, win,number_of_brother) VALUES (%s, %s, %s, %s, %s,%s)",
+      "INSERT INTO subgraph (index_prediction_to_evaluate, nodes_corresponding_to_index_prediction_to_evaluate, min_number_of_edges, deepnes_of_node_expansion, win,number_of_brother, difference_in_prediction) VALUES (%s, %s, %s, %s, %s,%s,%s)",
       subgraph_values)
     subgraph_id = cursor.lastrowid
     for edge in item["edge_index"]:
@@ -137,48 +139,15 @@ def load_json_to_mysql(json_file, conn):
   conn.close()
 
 
-def print_mysql_tables(conn):
-  ## TODO capire perchè non salva le tavole..... nella creazione dello schema
-  cursor = conn.cursor()
-
-  # Query per selezionare tutti i valori dalla tabella "subgraph"
-  subgraph_sql = "SELECT * FROM subgraph"
-  cursor.execute(subgraph_sql)
-  subgraph_data = cursor.fetchall()
-
-  # Stampa dei valori della tabella "subgraph"
-  print("TABELLA SUBGRAPH")
-  print(
-    "ID\tINDEX_PREDICTION_TO_EVALUATE\tNODES_CORRESPONDING_TO_INDEX_PREDICTION_TO_EVALUATE\tMIN_NUMBER_OF_EDGES\tDEEPNES_OF_NODE_EXPANSION\tWIN")
-  for row in subgraph_data:
-    print(f"{row[0]}\t{row[1]}\t{row[2]}\t{row[3]}\t{row[4]}\t{row[5]}")
-  print("")
-
-  # Query per selezionare tutti i valori dalla tabella "edges"
-  edges_sql = "SELECT * FROM edges"
-  cursor.execute(edges_sql)
-  edges_data = cursor.fetchall()
-
-  # Stampa dei valori della tabella "edges"
-  print("TABELLA EDGES")
-  print("ID\tSUBGRAPH_ID\tSOURCE_NODE\tTARGET_NODE")
-  for row in edges_data:
-    print(f"{row[0]}\t{row[1]}\t{row[2]}\t{row[3]}")
-
-  # Chiusura della connessione
-  cursor.close()
-  conn.close()
 
 def run_all_pipeline_to_update_my_sql():
-  convert_log_to_json(ROOT_DIR + '/log_esito_montecarlo_1.0.1.txt', ROOT_DIR + '/log.json')
+  convert_log_to_json(ROOT_DIR + '/log_esito_montecarlo.txt', ROOT_DIR + '/log.json')
   conn = get_mysql_connection()
   drop_all_tables(conn)
   conn.connect()
   create_tables(conn)
   conn.connect()
   load_json_to_mysql(ROOT_DIR + '/log.json', conn)
-  conn.connect()
-  print_mysql_tables(conn)
 if __name__ == '__main__':
 
   run_all_pipeline_to_update_my_sql()
