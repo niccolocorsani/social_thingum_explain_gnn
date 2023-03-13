@@ -4,7 +4,10 @@
 Il sistema MCTS è composto da più fasi che vengono eseguite in maniera iteritiva fin tanto che non viene trovato uno stato foglia ottimale.
 
 Partendo da un albero del genere:
-![Schermata 2023-03-13 alle 16 24 13](https://user-images.githubusercontent.com/126795492/224747703-8ce93d6e-d146-4a63-8daf-508adb441cf2.png)
+
+![Schermata 2023-03-13 alle 16 28 32](https://user-images.githubusercontent.com/126795492/224748728-80b93f15-f2ba-4810-b040-d4e05b4b71b7.png)
+
+
 
 Si può osservare nella fase animata l'iniseme di azioni che vengono svolte:
 
