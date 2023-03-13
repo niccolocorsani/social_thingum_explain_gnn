@@ -147,16 +147,20 @@ def load_json_to_mysql(json_file, conn):
 
 def run_all_pipeline_to_update_json_and_my_sql():
 
-#per ogni file presente nella cartella logs scrivi il nome del file a terminale
+
+  conn = get_mysql_connection()
+  drop_all_tables(conn)
+  conn.connect()
+  create_tables(conn)
+  conn.connect()
+
   for file in os.listdir(ROOT_DIR + '/logs'):
+
 
     convert_log_to_json(ROOT_DIR + '/logs/'+file, ROOT_DIR + '/jsons/'+file.replace('.txt','')+'.json')
     conn = get_mysql_connection()
-    drop_all_tables(conn)
-    conn.connect()
-    create_tables(conn)
-    conn.connect()
     load_json_to_mysql(ROOT_DIR + '/jsons/'+file.replace('.txt','')+'.json', conn)
+
 
 
 if __name__ == '__main__':

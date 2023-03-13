@@ -333,16 +333,16 @@ class MonteCarlo:
 
 
 
+    ## Metti in una stringa la data di oggi in formato (YYYY-MM-DD)
+    today = datetime.today().strftime('%Y-%m-%d')
 
 
-
-
-
+    print(today)
 
 
 #### TODO levare il diff dalla scrittura e dal progetto in generale
 #### TODO è normale che diff sia incoerente con win, win_dic fa riferimento al miglior dizionario, diff fa riferimento all'ultimo valore ritornato win_dic a diff
-    with open(ROOT_DIR + '/logs/log_esito_montecarlo_edge_1-52_1-77.txt', mode='a') as f:
+    with open(ROOT_DIR + '/logs/'+str(today)+'.txt', mode='a') as f:
       f.write('current_time: '+str(datetime.now())+';edge_index: ' + str(win_dic['edge_index']).replace("\n", "") + ';index_prediction_to_evaluate: ' + str(
         self.prediction_to_evaluate_index).replace("\n",
                                                    "") + ';nodes_corresponding_to_index_prediction_to_evaluate: ' + str(

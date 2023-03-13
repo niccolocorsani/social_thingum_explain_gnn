@@ -32,6 +32,12 @@
 <script>
 
 
+  // get the name after the ? in routing
+  var url_string = window.location.href
+  jsonName = url_string.split('?')[1].replace('.html','.json').replace('html_view_reports','')
+  jsonName = '/jsons/'+jsonName
+  alert(jsonName)
+
 
 
   // Chart dimensions
@@ -44,7 +50,7 @@
 
   async function readJson() {
     try {
-      await d3.json("log.json", function (data) {
+      await d3.json(jsonName, function (data) {
         jsonData = data
         createDropDownMenuLogic()
         console.log(jsonData)
