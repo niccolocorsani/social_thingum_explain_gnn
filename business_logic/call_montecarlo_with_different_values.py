@@ -5,7 +5,8 @@ import torch
 import defensive_programming
 import neo4j_queries
 from MySQL_to_BigQuery import trasferisci_mysql_a_big_query
-from generate_csv_json_mysql_from_log import run_all_pipeline_to_update_my_sql
+from generate_csv_json_mysql_from_log import run_all_pipeline_to_update_my_sql, \
+  run_all_pipeline_to_update_json_and_my_sql
 from model_ml import allAlberto
 from montecarlo import MonteCarlo, get_index_starting_from_nodes
 from utility import read_data, removeFilesFromFolder
@@ -17,7 +18,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == '__main__':
 
 
-  prediction_index = 20
+  prediction_index = 35
   number_of_brothers = 2
 
   ## Cose da preprocessing
@@ -49,9 +50,9 @@ if __name__ == '__main__':
   deepnes = 2
   min_edges = 4
 
-  for i in range(50):
+  for i in range(100):
     print(i)
-    deepnes = deepnes + 10
+    deepnes = deepnes + 5
     #min_edges = min_edges + i
 
     monte_carlo = MonteCarlo(heterodata=data, edge_index=edge_index, deepnes_of_node_expansion=int(deepnes),
@@ -63,7 +64,7 @@ if __name__ == '__main__':
 
     win_dic, list_of_final_dic = monte_carlo.search()
 
-  run_all_pipeline_to_update_my_sql()
+  run_all_pipeline_to_update_json_and_my_sql()
   trasferisci_mysql_a_big_query()   ## Queste due righe che sono la fine della pipeline totale non possono ancora essere eseguite, perchè errore biguery table not found
 
   print('Fine')

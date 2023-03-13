@@ -301,9 +301,9 @@ class MonteCarlo:
     _, ids_of_children_of_root_nodes = generateallchildren(self.prediction_to_evaluate_index, self.edge_index)
 
     ## Da rimuovere in produzione
-    if self.data['user', 'rates', 'movie'].edge_label[self.prediction_to_evaluate_index] != self.value_of_prediction:
-      defensive_programming.DefensiveProgramming.launch_allert(self,
-                                                               'Edge to evaluate valore errato in node expansion')
+    # if self.data['user', 'rates', 'movie'].edge_label[self.prediction_to_evaluate_index] != self.value_of_prediction:
+    #   defensive_programming.DefensiveProgramming.launch_allert(self,
+    #                                                            'Edge to evaluate valore errato in node expansion')
     ## Da rimuovere in produzione
 
     ids_of_children_format_with_under_score = []
@@ -346,7 +346,7 @@ class MonteCarlo:
 
 #### TODO levare il diff dalla scrittura e dal progetto in generale
 #### TODO è normale che diff sia incoerente con win, win_dic fa riferimento al miglior dizionario, diff fa riferimento all'ultimo valore ritornato win_dic a diff
-    with open(ROOT_DIR + '/log_esito_montecarlo.txt', mode='a') as f:
+    with open(ROOT_DIR + '/logs/log_esito_montecarlo_edge_1-52_1-77.txt', mode='a') as f:
       f.write('current_time: '+str(datetime.now())+';edge_index: ' + str(win_dic['edge_index']).replace("\n", "") + ';index_prediction_to_evaluate: ' + str(
         self.prediction_to_evaluate_index).replace("\n",
                                                    "") + ';nodes_corresponding_to_index_prediction_to_evaluate: ' + str(

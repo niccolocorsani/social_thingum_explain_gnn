@@ -67,6 +67,10 @@ def convert_log_to_json(log_file_path, json_file_path):
     json.dump(results, f)
 
 
+  print('convert_log_to_json concluso')
+
+
+
 def get_mysql_connection():
   # Connessione al database
   conn = mysql.connector.connect(
@@ -137,19 +141,26 @@ def load_json_to_mysql(json_file, conn):
   conn.commit()
   cursor.close()
   conn.close()
+  print('load_json_to_mysql concluso')
 
 
 
-def run_all_pipeline_to_update_my_sql():
-  convert_log_to_json(ROOT_DIR + '/log_esito_montecarlo.txt', ROOT_DIR + '/log.json')
-  conn = get_mysql_connection()
-  drop_all_tables(conn)
-  conn.connect()
-  create_tables(conn)
-  conn.connect()
-  load_json_to_mysql(ROOT_DIR + '/log.json', conn)
+def run_all_pipeline_to_update_json_and_my_sql():
+
+#per ogni file presente nella cartella logs scrivi il nome del file a terminale
+  for file in os.listdir(ROOT_DIR + '/logs'):
+
+    convert_log_to_json(ROOT_DIR + '/logs/'+file, ROOT_DIR + '/jsons/'+file.replace('.txt','')+'.json')
+    conn = get_mysql_connection()
+    drop_all_tables(conn)
+    conn.connect()
+    create_tables(conn)
+    conn.connect()
+    load_json_to_mysql(ROOT_DIR + '/jsons/'+file.replace('.txt','')+'.json', conn)
+
+
 if __name__ == '__main__':
 
-  run_all_pipeline_to_update_my_sql()
+  run_all_pipeline_to_update_json_and_my_sql()
 
 

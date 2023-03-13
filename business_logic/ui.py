@@ -6,7 +6,7 @@ import webbrowser
 
 import torch
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QTextEdit, QHBoxLayout, \
-  QVBoxLayout, QWidget, QMessageBox, QScrollArea
+  QVBoxLayout, QWidget, QMessageBox
 
 import neo4j_queries
 import utility
