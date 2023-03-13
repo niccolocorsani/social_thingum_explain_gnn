@@ -1,5 +1,5 @@
 # explainable!
-[Sub_graph_x_documentation (4).pdf](https://github.com/SocialThingsIT/explainable/files/10958899/Sub_graph_x_documentation.4.pdf)
+[Sub_graph_x_documentation.pdf](https://github.com/SocialThingsIT/explainable/files/10958899/Sub_graph_x_documentation.4.pdf)
 
 Il sistema MCTS è composto da più fasi che vengono eseguite in maniera iteritiva fin tanto che non viene trovato uno stato foglia ottimale.
 
