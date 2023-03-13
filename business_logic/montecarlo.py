@@ -11,10 +11,6 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 
-
-
-
-
 ## Da rimuovere in produzione
 def verifica_colonna(tensore, colonna):
   colonna = torch.stack(colonna).reshape(-1, 1)
