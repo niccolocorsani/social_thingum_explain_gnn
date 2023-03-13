@@ -5,8 +5,7 @@ import torch
 import defensive_programming
 import neo4j_queries
 from MySQL_to_BigQuery import trasferisci_mysql_a_big_query
-from generate_csv_json_mysql_from_log import run_all_pipeline_to_update_my_sql, \
-  run_all_pipeline_to_update_json_and_my_sql
+from generate_csv_json_mysql_from_log import run_all_pipeline_to_update_json_and_my_sql
 from model_ml import allAlberto
 from montecarlo import MonteCarlo, get_index_starting_from_nodes
 from utility import read_data, removeFilesFromFolder
@@ -18,7 +17,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == '__main__':
 
 
-  prediction_index = 35
+  prediction_index = 80
   number_of_brothers = 2
 
   ## Cose da preprocessing

@@ -92,7 +92,7 @@ def trasferisci_mysql_a_big_query():
   # TODO Come work around attulae, prima di ogni esecuzione devo eliminare le tabelle a mano, fare run manuali finchè non l'ha creato ecc....
   table_ref = client.dataset('dataset_name').table('subgraph1')
   table = bigquery.Table(table_ref, schema=schema)
-  #table = client.create_table(table)
+  # table = client.create_table(table)
 
   # Caricare i dati del dataframe pandas nella tabella di BigQuery
   rows_to_insert = df.values.tolist()
@@ -130,7 +130,7 @@ def trasferisci_mysql_a_big_query():
 
   table_ref = client.dataset('dataset_name').table('edges1')
   table = bigquery.Table(table_ref, schema=schema)
-  #table = client.create_table(table)
+  # table = client.create_table(table)
 
   # Caricare i dati del dataframe pandas nella tabella di BigQuery
   rows_to_insert = df.values.tolist()
@@ -142,49 +142,48 @@ def trasferisci_mysql_a_big_query():
   else:
     print('Si è verificato un errore durante l\'inserimento dei dati nell')
 
-#   # Set up query
-#   query = """
-# SELECT distinct(nodes_corresponding_to_index_prediction_to_evaluate) FROM `virtual-plexus-379510.dataset_name.join_subgraph_edges`
-#   """
-#
-#   # Run query and get results
-#   query_job = client.query(query)
-#   results = query_job.result()
-#
-#   valori = []
-#   # Print results
-#   for row in results:
-#     valori.append(eval(row[
-#                          'nodes_corresponding_to_index_prediction_to_evaluate']))  # estraiamo la sottostringa contenente i valori tra apici singoli
-#
-#   for element in valori:
-#     table_name = "join_subgraph_edges_filtered_by_edge" + str(element).replace(" ", "")
-#     query = """
-#             CREATE TABLE `dataset_name.{table}`
-#             AS
-#             SELECT tabella1.id, tabella1.index_prediction_to_evaluate, tabella1.min_number_of_edges, tabella1.win, tabella1.nodes_corresponding_to_index_prediction_to_evaluate,tabella1.number_of_brother, tabella1.difference_in_prediction, tabella1.deepnes_of_node_expansion, tabella2.source_node ,tabella2.target_node
-#             FROM `dataset_name.subgraph1` as tabella1
-#             JOIN `dataset_name.edges1` as tabella2
-#             ON tabella1.id = tabella2.subgraph_id
-#             where tabella1.nodes_corresponding_to_index_prediction_to_evaluate =
-#             """ + str(element) +';'
-#
-#     # Esegui la query
-#     query_job = client.query(query)
+  #   # Set up query
+  #   query = """
+  # SELECT distinct(nodes_corresponding_to_index_prediction_to_evaluate) FROM `virtual-plexus-379510.dataset_name.join_subgraph_edges`
+  #   """
+  #
+  #   # Run query and get results
+  #   query_job = client.query(query)
+  #   results = query_job.result()
+  #
+  #   valori = []
+  #   # Print results
+  #   for row in results:
+  #     valori.append(eval(row[
+  #                          'nodes_corresponding_to_index_prediction_to_evaluate']))  # estraiamo la sottostringa contenente i valori tra apici singoli
+  #
+  #   for element in valori:
+  #     table_name = "join_subgraph_edges_filtered_by_edge" + str(element).replace(" ", "")
+  #     query = """
+  #             CREATE TABLE `dataset_name.{table}`
+  #             AS
+  #             SELECT tabella1.id, tabella1.index_prediction_to_evaluate, tabella1.min_number_of_edges, tabella1.win, tabella1.nodes_corresponding_to_index_prediction_to_evaluate,tabella1.number_of_brother, tabella1.difference_in_prediction, tabella1.deepnes_of_node_expansion, tabella2.source_node ,tabella2.target_node
+  #             FROM `dataset_name.subgraph1` as tabella1
+  #             JOIN `dataset_name.edges1` as tabella2
+  #             ON tabella1.id = tabella2.subgraph_id
+  #             where tabella1.nodes_corresponding_to_index_prediction_to_evaluate =
+  #             """ + str(element) +';'
+  #
+  #     # Esegui la query
+  #     query_job = client.query(query)
 
   # Definisci la tua query
-  query = """
-          CREATE TABLE `dataset_name.join_subgraph_edges`
-          AS
-          SELECT tabella1.id, tabella1.index_prediction_to_evaluate, tabella1.min_number_of_edges, tabella1.win, tabella1.nodes_corresponding_to_index_prediction_to_evaluate,tabella1.number_of_brother, tabella1.difference_in_prediction, tabella1.deepnes_of_node_expansion, tabella2.source_node ,tabella2.target_node
-          FROM `dataset_name.subgraph1` as tabella1
-          JOIN `dataset_name.edges1` as tabella2
-          ON tabella1.id = tabella2.subgraph_id;
-  """
+  # query = """
+  #         CREATE TABLE `dataset_name.join_subgraph_edges`
+  #         AS
+  #         SELECT tabella1.id, tabella1.index_prediction_to_evaluate, tabella1.min_number_of_edges, tabella1.win, tabella1.nodes_corresponding_to_index_prediction_to_evaluate,tabella1.number_of_brother, tabella1.difference_in_prediction, tabella1.deepnes_of_node_expansion, tabella2.source_node ,tabella2.target_node
+  #         FROM `dataset_name.subgraph1` as tabella1
+  #         JOIN `dataset_name.edges1` as tabella2
+  #         ON tabella1.id = tabella2.subgraph_id;
+  # """
 
-
-  # Esegui la query
-  query_job = client.query(query)
+  # # Esegui la query
+  # query_job = client.query(query)
 
   # una query che mi unisce il valore della colonna source e target in una stringa unica
   query = """CREATE TABLE `dataset_name.join_subgraph_edges`
@@ -194,6 +193,8 @@ FROM `dataset_name.subgraph1` AS tabella1
 JOIN `dataset_name.edges1` AS tabella2
 ON tabella1.id = tabella2.subgraph_id;
          """
+  # Esegui la query
+  query_job = client.query(query)
 
 
 if __name__ == '__main__':
