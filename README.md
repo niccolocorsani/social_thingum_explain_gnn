@@ -16,3 +16,7 @@ Si può osservare nella fase animata l'iniseme di azioni che vengono svolte:
 
 La linea ondeggiata rappresenta la fase di simulation (random walk).
 La linea dritta che appare alla fine dell'animazione rappresenta un'esapnsione di un nodo.
+
+La conclusione della GIF è questa:
+![Schermata 2023-03-13 alle 16 51 30](https://user-images.githubusercontent.com/126795492/224755527-bfd7e298-baae-4abe-a7ad-ba5c103d9795.png)
+
