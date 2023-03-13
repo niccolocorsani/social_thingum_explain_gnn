@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+  .node {
+    fill: #ccc;
+    stroke: #fff;
+    stroke-width: 2px;
+  }
+
+  /*add css for links*/
+
+  .link {
+    fill: none;
+    stroke: #999;
+    stroke-opacity: .6;
+    stroke-width: 3px;
+  }
+
+
+</style>
+
+
+<body>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+
+
+<!-- create a href to https://lookerstudio.google.com/reporting/2adab47e-f914-4381-913d-35862c2179b0 -->
+<a href="https://lookerstudio.google.com/reporting/2adab47e-f914-4381-913d-35862c2179b0" target="_blank">Clicca per vedere il report di looker studio</a>
+<script>
+
+
+
+
+  // Chart dimensions
+  const width = 500;
+  const height = 300;
+  const margin = 50;
+
+  svg = d3.select("body").append("svg")
+  jsonData = []
+
+  async function readJson() {
+    try {
+      await d3.json("jsons/log_esito_montecarlo_tanti_fratelli.json", function (data) {
+        jsonData = data
+        createDropDownMenuLogic()
+        console.log(jsonData)
+
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+  selectedEdge = null
+
+
+  function createDropDownMenuLogic() {
+
+
+    var options = []
+    jsonData.forEach(value => {
+      options.push(value.nodes_corresponding_to_index_prediction_to_evaluate.toString())
+    })
+    // remove duplicates from options
+    options = options.filter((item, index) => {
+      return options.indexOf(item) === index
+    })
+    console.log(options)
+
+
+
+    var dropdown = document.createElement('select');
+    //add an id to the dropdown menu
+    dropdown.id = 'select_dropdown';
+    for (var i = 0; i < options.length; i++) {
+      var option = document.createElement('option');
+      option.value = options[i];
+      option.innerHTML = options[i];
+      dropdown.appendChild(option);
+    }
+    document.body.appendChild(dropdown);
+    /* when an element is selected from the dropdown menu trigger a function named doThings() passing the selected parameter. The function should display the name of the selected element */
+    dropdown.addEventListener('change', function () {
+      doThings(this.value);
+    });
+
+    function doThings(selected) {
+      selectedEdge = selected
+      alert(selected);
+      createChart();
+
+    }
+  }
+
+
+  function createChart() {
+
+
+    readJson().then(function () {
+      jsonData = jsonData
+    });
+    selectedEdge = selectedEdge.split(",").map(Number)
+
+    jsonData = jsonData.filter(d =>
+      d.nodes_corresponding_to_index_prediction_to_evaluate.includes(selectedEdge[0]) &&
+      d.nodes_corresponding_to_index_prediction_to_evaluate.includes(selectedEdge[1])
+    );
+
+    const chartData = jsonData.map(d => ({
+      win: d.difference_in_prediction,
+      deepnes_of_node_expansion: d.deepnes_of_node_expansion
+    }));
+
+
+    // Create an SVG element and append it to the body
+    svg = d3.select('body')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+    // Define the x and y scales
+    const xScale = d3.scale.linear()
+      .domain([0, d3.max(chartData, d => d.deepnes_of_node_expansion)])
+      .range([margin, width - margin]);
+
+    const yScale = d3.scale.linear()
+      .domain([0, d3.max(chartData, d => d.win)])
+      .range([height - margin, margin]);
+
+    // Define the x and y axes
+    const xAxis = d3.svg.axis().scale(xScale);
+    const yAxis = d3.svg.axis().scale(yScale).orient('left');
+
+    // Add the x and y axes to the SVG
+    svg.append('g')
+      .attr('transform', `translate(0, ${height - margin})`)
+      .call(xAxis);
+
+    svg.append('g')
+      .attr('transform', `translate(${margin}, 0)`)
+      .call(yAxis);
+
+    // Add x-axis label
+    svg.append('text')
+      .attr('x', width / 2)
+      .attr('y', height - 10)
+      .style('text-anchor', 'middle')
+      .text('Deepness of Node Expansion');
+
+    // Add y-axis label
+    svg.append('text')
+      .attr('x', -height / 2)
+      .attr('y', margin - 20)
+      .style('text-anchor', 'middle')
+      .attr('transform', 'rotate(-90)')
+      .text('Win')
+    // position the text more left
+      .attr('x', -height / 2)
+      .attr('y', margin - 40)
+      .style('text-anchor', 'middle')
+      .attr('transform', 'rotate(-90)')
+      .text('Difference in Prediction')
+
+
+
+    ;
+
+    // Add the bars to the chart
+
+    svg.selectAll('rect')
+      .data(chartData)
+      .enter()
+      .append('rect')
+      .attr('x', d => xScale(d.deepnes_of_node_expansion))
+      .attr('y', d => yScale(d.win))
+      .attr('width', 20)
+      .attr('height', d => height - margin - yScale(d.win))
+      // add a black point at the end of the bar
+      .attr('stroke', 'black')
+      .attr('fill', 'steelblue');
+  }
+
+
+  // Data extraction
+  createChart();
+
+
+</script>
