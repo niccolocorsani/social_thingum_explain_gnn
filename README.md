@@ -23,3 +23,5 @@ La conclusione della GIF è questa:
 
 ![Schermata 2023-03-13 alle 16 51 30](https://user-images.githubusercontent.com/126795492/224755527-bfd7e298-baae-4abe-a7ad-ba5c103d9795.png)
 
+Dopo questa fase vi sarebbe in teoria una nuova fase di back-propagation che aggiorna tutti i nodi (nel caso specifico 5 nodi) e poi la fase select, simulation e di nuovo node exapansion.
+
