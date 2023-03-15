@@ -7,6 +7,17 @@ import utility
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+
+def parse_data_lv1(data):
+  source_nodes = []
+  target_nodes = []
+  for item in data:
+    source_nodes.append(int(item['u.name']))
+    target_nodes .append(int(item['n.name']))
+
+
+  return torch.tensor([source_nodes, target_nodes]), None
+
 def parse_data(data):
   rows = []
   cols = []
@@ -58,9 +69,7 @@ class MyNeo4j:
       result = session.run(query)
       return result.data()
 
-
 def get_subgraph_from_neo4j_to_explainability(user_number, number_of_brothers):
-
   uri = "bolt://localhost:7687"
   user = "neo4j"
   password = "3X1fJlNK_hQ2qIM8yn-Iz4tcOhsQNHgR7W8TVkatKwA"
@@ -68,11 +77,7 @@ def get_subgraph_from_neo4j_to_explainability(user_number, number_of_brothers):
 
   query_retrive_users = f'MATCH (u:User {{name: "{user_number}"}})-[r:RATES]->(n)<-[:RATES]-(u1) RETURN u1.name'
 
-
-
   results = myNeo4j.run_query(query_retrive_users)
-
-
 
   users = []
   for element in results:
@@ -81,18 +86,10 @@ def get_subgraph_from_neo4j_to_explainability(user_number, number_of_brothers):
       continue
     users.append(element['u1.name'])
 
-
-
   ## eliminate the last 55 users of 57 total users
-  users = users[:-(len(users)-number_of_brothers)]
-
-  ## Una soluzione può essere calcolare tutti gli user che si trovano a 2 hop di distanza e successivamente porvare a limitare il numero di user dopo
-
-  #query = f'MATCH (u1)-[r1:RATES]->(m1)<-[r2:RATES]-(u2:User {{name: "{user_number}"}})-[r3:RATES]->(m2) RETURN u1, r1.rating, m1, r2.rating, u2, m2, r3.rating limit ' + limit
-  #query = f'MATCH (u1)-[r1:RATES]->(m1)<-[r2:RATES]-(u2:User {{name: "{user_number}"}})-[r3:RATES]->(m2) WHERE toInteger(m2.name) < 30 RETURN u1, r1.rating, m1, r2.rating, u2, m2, r3.rating'
+  users = users[:-(len(users) - number_of_brothers)]
 
   user_filter = ' OR '.join([f'u2.name = "{name}"' for name in users])
-  #query = f'MATCH (u1:User {{name: "{user_number}"}})-[r1:RATES]->(m1)<-[r2:RATES]-(u2)-[r3:RATES]->(m2) RETURN u1, r1.rating, m1, r2.rating, u2, m2, r3.rating limit ' + limit
 
   query = f'MATCH (u1:User {{name: "{user_number}"}})-[r1:RATES]->(m1)<-[r2:RATES]-(u2)-[r3:RATES]->(m2) WHERE {user_filter} RETURN u1, r1.rating, m1, r2.rating, u2, m2, r3.rating'
 
@@ -100,11 +97,27 @@ def get_subgraph_from_neo4j_to_explainability(user_number, number_of_brothers):
   results = myNeo4j.run_query(query)
   edge_index, edge_label = parse_data(results)
   edge_index, edge_label = remove_duplicate_columns(edge_index, edge_label)
-  utility.write_to_graph_format(edge_index, ROOT_DIR + '/winner_graph' + '.txt')
+  utility.write_to_graph_format(edge_index, ROOT_DIR + '/starter_graph' + '.txt')
   print('Fine caricamento dati da neo4j')
 
   return edge_index, edge_label
 
+def get_subgraph_from_neo4j_to_explainability_starting_from_1_lv_subgraph(user_number):
+  uri = "bolt://localhost:7687"
+  user = "neo4j"
+  password = "3X1fJlNK_hQ2qIM8yn-Iz4tcOhsQNHgR7W8TVkatKwA"
+  myNeo4j = MyNeo4j(uri, user, password)
+
+  query = f'MATCH (u:User {{name: "{user_number}"}})-[r:RATES]->(n) RETURN u.name, n.name'
+
+  print(query)
+
+  results = myNeo4j.run_query(query)
+  edge_index, edge_label = parse_data_lv1(results)
+  utility.write_to_graph_format(edge_index, ROOT_DIR + '/starter_graph' + '.txt')
+  print('Fine caricamento dati da neo4j')
+
+  return edge_index, edge_label
 
 if __name__ == "__main__":
-  get_subgraph_from_neo4j_to_explainability("0")
+  pass

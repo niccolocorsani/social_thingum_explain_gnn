@@ -17,8 +17,9 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == '__main__':
 
 
-  prediction_index = 80
-  number_of_brothers = 2
+  prediction_index = 160
+
+  number_of_brothers = 3
 
   ## Cose da preprocessing
   device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -46,7 +47,7 @@ if __name__ == '__main__':
   prediction_index = get_index_starting_from_nodes(edge_index, edge)
   print(edge)
 
-  deepnes = 2
+  deepnes = 30
   min_edges = 4
 
   for i in range(100):
@@ -58,9 +59,6 @@ if __name__ == '__main__':
                              min_graph_number_of_edges=int(min_edges), model=model,
                              prediction_to_evaluate_index=int(prediction_index), edge=edge,
                              number_of_brother=number_of_brothers)
-
-
-
     win_dic, list_of_final_dic = monte_carlo.search()
 
   run_all_pipeline_to_update_json_and_my_sql()

@@ -83,7 +83,7 @@ class MyWindow(QWidget):
 
     # Generate a random port number
     # Get the path of the HTML file to serve
-    html_file_path = ROOT_DIR + '/best_subgraph.html'
+    html_file_path = ROOT_DIR + '/charts.html'
 
     # Generate a random port number
     port = random.randint(1024, 65535)

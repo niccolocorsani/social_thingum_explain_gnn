@@ -1,18 +1,10 @@
-def convert_json_to_csv(json_file_name, csv_file_name):
-  import pandas as pd
-  import json
-
-  with open(ROOT_DIR + json_file_name, 'r') as f:
-    data = json.load(f)
-  df = pd.DataFrame(data)
-  df.to_csv(ROOT_DIR + csv_file_name, index=False)
-
-
+from annotations.log_annotation_from_file import log_all_function_calls
 import os
 import mysql.connector
 import json
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#log_all_function_calls(__name__)
 
 
 def convert_log_to_json(log_file_path, json_file_path):
@@ -67,7 +59,6 @@ def convert_log_to_json(log_file_path, json_file_path):
     json.dump(results, f)
 
 
-  print('convert_log_to_json concluso')
 
 
 
@@ -141,7 +132,6 @@ def load_json_to_mysql(json_file, conn):
   conn.commit()
   cursor.close()
   conn.close()
-  print('load_json_to_mysql concluso')
 
 
 
