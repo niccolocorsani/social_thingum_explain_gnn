@@ -92,7 +92,7 @@ def trasferisci_mysql_a_big_query():
   # TODO Come work around attulae, prima di ogni esecuzione devo eliminare le tabelle a mano, fare run manuali finchè non l'ha creato ecc....
   table_ref = client.dataset('dataset_name').table('subgraph1')
   table = bigquery.Table(table_ref, schema=schema)
-  # table = client.create_table(table)
+  #table = client.create_table(table)
 
   # Caricare i dati del dataframe pandas nella tabella di BigQuery
   rows_to_insert = df.values.tolist()
@@ -130,7 +130,7 @@ def trasferisci_mysql_a_big_query():
 
   table_ref = client.dataset('dataset_name').table('edges1')
   table = bigquery.Table(table_ref, schema=schema)
-  # table = client.create_table(table)
+  #table = client.create_table(table)
 
   # Caricare i dati del dataframe pandas nella tabella di BigQuery
   rows_to_insert = df.values.tolist()
@@ -188,7 +188,7 @@ def trasferisci_mysql_a_big_query():
   # una query che mi unisce il valore della colonna source e target in una stringa unica
   query = """CREATE TABLE `dataset_name.join_subgraph_edges`
 AS
-SELECT tabella1.id, tabella1.index_prediction_to_evaluate, tabella1.min_number_of_edges, tabella1.win, tabella1.nodes_corresponding_to_index_prediction_to_evaluate, tabella1.number_of_brother, tabella1.difference_in_prediction, tabella1.deepnes_of_node_expansion, CONCAT(tabella2.source_node, '-', tabella2.target_node) AS source_target_nodes
+SELECT tabella1.id, tabella1.index_prediction_to_evaluate, tabella1.min_number_of_edges, tabella1.win, tabella1.nodes_corresponding_to_index_prediction_to_evaluate, tabella1.number_of_brother, tabella1.difference_in_prediction, tabella1.deepnes_of_node_expansion, CONCAT(tabella2.source_node, ',', tabella2.target_node) AS source_target_nodes
 FROM `dataset_name.subgraph1` AS tabella1
 JOIN `dataset_name.edges1` AS tabella2
 ON tabella1.id = tabella2.subgraph_id;

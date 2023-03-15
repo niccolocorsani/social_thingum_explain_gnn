@@ -4,12 +4,9 @@ from datetime import datetime
 from math import sqrt, log
 import defensive_programming
 import utility
+from annotations.log_annontation_from_class import LogMethodCalls
 from model_ml import predict_with_GNN
-
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-
 
 ## Da rimuovere in produzione
 def verifica_colonna(tensore, colonna):
@@ -81,6 +78,8 @@ def find_sub_edge_positions(edge_index, sub_edge_index):
   return positions
 
 
+
+#@LogMethodCalls
 class MonteCarlo:
   def __init__(self, heterodata, edge_index, model, prediction_to_evaluate_index, edge, number_of_brother, deepnes_of_node_expansion=8,
                min_graph_number_of_edges=5):
@@ -137,13 +136,10 @@ class MonteCarlo:
 ####TODO da mettere controlli a destra e sinistra
 ##TODO qui va tagliato l'edge_index levandogli i nodi che compaiono nella stringa node_id
 
-    print('prima'+str((len(edge_index[0]))))
     list_of_edges_to_remove = node_id.split('_')
-    print(str(len(list_of_edges_to_remove)))
     list_of_edges_to_remove = list(map(int, list_of_edges_to_remove))
     list_of_edges_to_keep = [x for x in list_of_index if x not in list_of_edges_to_remove]
     edge_index = edge_index[:, list_of_edges_to_keep]
-    print('levato'+str((len(edge_index[0]))))
 
 ####################################################################
 
