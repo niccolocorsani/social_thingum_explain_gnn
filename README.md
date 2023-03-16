@@ -25,3 +25,8 @@ La conclusione della GIF è questa:
 
 Dopo questa fase vi sarebbe in teoria una nuova fase di back-propagation che aggiorna tutti i nodi (nel caso specifico 5 nodi) e poi la fase select, simulation e di nuovo node exapansion.
 
+Nella seguente immagine si può osservare un esempio di labeling:
+
+<img width="590" alt="Immagine 2023-03-16 165844" src="https://user-images.githubusercontent.com/126795492/225679913-098ddf1c-fd15-44c5-bf6b-26c88c9f781a.png">
+
+
