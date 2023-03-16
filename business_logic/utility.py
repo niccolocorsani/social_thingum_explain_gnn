@@ -78,20 +78,20 @@ def read_data():
 
   data = HeteroData()
   data['user'].num_nodes = len(users)  # Users do not have any features.
-  data['movie'].x = movie_x
+  data['item'].x = movie_x
 
-  # Create an edge type "('user', 'rates', 'movie')" and building the
+  # Create an edge type "('user', 'rates', 'item')" and building the
   # graph connectivity:
-  data['user', 'rates', 'movie'].edge_index = edge_index
-  data['user', 'rates', 'movie'].edge_label = edge_label
+  data['user', 'rates', 'item'].edge_index = edge_index
+  data['user', 'rates', 'item'].edge_label = edge_label
 
   # Add user node features for message passing:
   data['user'].x = torch.eye(data['user'].num_nodes, device=device)
   del data['user'].num_nodes
 
-  # Add a reverse ('movie', 'rev_rates', 'user') relation for message passing.
+  # Add a reverse ('item', 'rev_rates', 'user') relation for message passing.
   data = ToUndirected()(data)
-  del data['movie', 'rev_rates', 'user'].edge_label  # Remove "reverse" label.
+  del data['item', 'rev_rates', 'user'].edge_label  # Remove "reverse" label.
   data = data.to(device)
 
   return data, edge_index

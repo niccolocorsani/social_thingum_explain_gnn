@@ -95,14 +95,14 @@ class MonteCarlo:
     self.edge = edge
     self.number_of_brother = number_of_brother
 
-    positions = find_sub_edge_positions(self.data['user', 'rates', 'movie'].edge_index, self.edge_index)
+    positions = find_sub_edge_positions(self.data['user', 'rates', 'item'].edge_index, self.edge_index)
 
     self.data = self.data.edge_subgraph({
       'rates': torch.tensor(positions),
       'rev_rates': torch.tensor(positions),
     })
 
-    self.value_of_prediction = self.data['user', 'rates', 'movie'].edge_label[
+    self.value_of_prediction = self.data['user', 'rates', 'item'].edge_label[
       self.prediction_to_evaluate_index]  ##  poi da rimuovere in produzione, solo per debuggare
 
   def remove_random_nodes_payng_attention_to_not_remove_nodes_of_edge(self, edge_index, edge):
@@ -170,7 +170,7 @@ class MonteCarlo:
 ## da rimuovere in produzione
 # ## Da rimuovere in produzione
 #       try:
-#         dim_grafo_prima = len(new_data['user', 'rates', 'movie'].edge_index[0])
+#         dim_grafo_prima = len(new_data['user', 'rates', 'item'].edge_index[0])
 #       except Exception as e:
 #         pass
 ## Da rimuovere in produzione
@@ -188,29 +188,29 @@ class MonteCarlo:
         'rates': torch.tensor(list_of_index),
         'rev_rates': torch.tensor(list_of_index),
       })
-      dim_grafo_dopo = len(new_data['user', 'rates', 'movie'].edge_index[0])  ## Da rimuovere in produzione
+      dim_grafo_dopo = len(new_data['user', 'rates', 'item'].edge_index[0])  ## Da rimuovere in produzione
 
-      new_data['user', 'rates', 'movie'].edge_label_index = new_data[
-        'user', 'rates', 'movie'].edge_index
+      new_data['user', 'rates', 'item'].edge_label_index = new_data[
+        'user', 'rates', 'item'].edge_index
 
 ## Da rimuovere in produzione
       # try:
-      #   subtract = debug_data['user', 'rates', 'movie'].edge_index - new_data['user', 'rates', 'movie'].edge_index
+      #   subtract = debug_data['user', 'rates', 'item'].edge_index - new_data['user', 'rates', 'item'].edge_index
       #   print('rimosso: ' + subtract)
       # except:
       #   pass
 # ## Da rimuovere in produzione
 #       if verifica_colonna(new_data[
-#                             'user', 'rates', 'movie'].edge_index, self.edge) == False:
+#                             'user', 'rates', 'item'].edge_index, self.edge) == False:
 #         defensive_programming.DefensiveProgramming.launch_allert(self,
 #                                                                  'self.edge_index non contiene più l arco su cui faccio explainability')
 ## Da rimuovere in produzione
 ## Da rimuovere in produzione
       # if verifica_colonna(new_data[
-      #                       'user', 'rates', 'movie'].edge_index, self.edge) == False:
+      #                       'user', 'rates', 'item'].edge_index, self.edge) == False:
       #   defensive_programming.DefensiveProgramming.launch_allert(self,
       #                                                            'self.edge_index non contiene più l arco su cui faccio explainability')
-      ##TODO Mettere controllo del tipo: new_data['user', 'rates', 'movie'].edge_index deve contenere tutti gli torch.unique(edge_index[0]) nodi
+      ##TODO Mettere controllo del tipo: new_data['user', 'rates', 'item'].edge_index deve contenere tutti gli torch.unique(edge_index[0]) nodi
 ## Da rimuovere in produzione
       # try:
       #   if dim_grafo_dopo > dim_grafo_prima:
@@ -226,23 +226,23 @@ class MonteCarlo:
                                                                'The dimension of the leaf graph is higher than the dimension of the root graph. Try to increase the number of brothers')
     index_of_prediction_to_evaluate = get_index_starting_from_nodes(edge_index, self.edge)
 ## Da rimuovere in produzione
-    # if new_data['user', 'rates', 'movie'].edge_label[index_of_prediction_to_evaluate] != self.value_of_prediction:
+    # if new_data['user', 'rates', 'item'].edge_label[index_of_prediction_to_evaluate] != self.value_of_prediction:
     #   defensive_programming.DefensiveProgramming.launch_allert(self,'Edge to evaluate valore errato')
 ## Da rimuovere in produzione
 ## Da rimuovere in produzione
-    # if new_data['user', 'rates', 'movie'].edge_label[index_of_prediction_to_evaluate] != \
-    #   data['user', 'rates', 'movie'].edge_label[self.prediction_to_evaluate_index]:
+    # if new_data['user', 'rates', 'item'].edge_label[index_of_prediction_to_evaluate] != \
+    #   data['user', 'rates', 'item'].edge_label[self.prediction_to_evaluate_index]:
     #   defensive_programming.DefensiveProgramming.launch_allert(self,
     #                                                            'Edge to evaluate valore errato')
 ## Da rimuovere in produzione
 
     diff = abs(predictions[index_of_prediction_to_evaluate] - \
-               data['user', 'rates', 'movie'].edge_label[self.prediction_to_evaluate_index])
+               data['user', 'rates', 'item'].edge_label[self.prediction_to_evaluate_index])
 
     ## Da rimuovere in produzione
-    # if new_data['user', 'rates', 'movie'].edge_index[0][index_of_prediction_to_evaluate] != \
-    #   data['user', 'rates', 'movie'].edge_index[0][self.prediction_to_evaluate_index] or new_data['user', 'rates', 'movie'].edge_index[1][index_of_prediction_to_evaluate] != \
-    #   data['user', 'rates', 'movie'].edge_index[1][self.prediction_to_evaluate_index]:
+    # if new_data['user', 'rates', 'item'].edge_index[0][index_of_prediction_to_evaluate] != \
+    #   data['user', 'rates', 'item'].edge_index[0][self.prediction_to_evaluate_index] or new_data['user', 'rates', 'item'].edge_index[1][index_of_prediction_to_evaluate] != \
+    #   data['user', 'rates', 'item'].edge_index[1][self.prediction_to_evaluate_index]:
     #   defensive_programming.DefensiveProgramming.launch_allert(self,'Edge_index to evaluate valore errato')
     ## Da rimuovere in produzione
 
@@ -293,7 +293,7 @@ class MonteCarlo:
     _, ids_of_children_of_root_nodes = generateallchildren(self.prediction_to_evaluate_index, self.edge_index)
 
     ## Da rimuovere in produzione
-    # if self.data['user', 'rates', 'movie'].edge_label[self.prediction_to_evaluate_index] != self.value_of_prediction:
+    # if self.data['user', 'rates', 'item'].edge_label[self.prediction_to_evaluate_index] != self.value_of_prediction:
     #   defensive_programming.DefensiveProgramming.launch_allert(self,
     #                                                            'Edge to evaluate valore errato in node expansion')
     ## Da rimuovere in produzione
@@ -318,6 +318,8 @@ class MonteCarlo:
         self.simulation_montecarlo(node_id=best_child_id,
                                    edge_index=self.edge_index)
         iterations = iterations + 1
+        print(iterations)
+
         if iterations % 100 == 0:
           print(iterations)
       ## Cambio il root node e inizio la prima fase di Expansion

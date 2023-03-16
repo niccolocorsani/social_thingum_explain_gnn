@@ -17,15 +17,15 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == '__main__':
 
 
-  prediction_index = 160
+  prediction_index = 56
 
-  number_of_brothers = 3
+  number_of_brothers = 2
 
   ## Cose da preprocessing
   device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
   data, edge_index = read_data()
   print('Tutto edge_index: ')
-  print(len(data['user', 'rates', 'movie'].edge_index[0]))
+  print(len(data['user', 'rates', 'item'].edge_index[0]))
   user = edge_index[0][int(prediction_index)]
   edge_index, _ = neo4j_queries.get_subgraph_from_neo4j_to_explainability(user_number=str(user.item()),
                                                                           number_of_brothers=int(number_of_brothers))
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
 #### Da rimuovere assolutamente in produzione
   defensiveProgramming = defensive_programming.DefensiveProgramming()
-  data['user', 'rates', 'movie'].edge_label_index = data['user', 'rates', 'movie'].edge_index
+  data['user', 'rates', 'item'].edge_label_index = data['user', 'rates', 'item'].edge_index
   defensiveProgramming.evaluate(test_data=data, model=model)
 #### Da rimuovere assolutamente in produzione
 
