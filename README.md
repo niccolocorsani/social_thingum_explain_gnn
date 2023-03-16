@@ -29,5 +29,8 @@ Nella seguente immagine si può osservare un esempio di labeling:
 
 <img width="590" alt="Immagine 2023-03-16 165844" src="https://user-images.githubusercontent.com/126795492/225679913-098ddf1c-fd15-44c5-bf6b-26c88c9f781a.png">
 
-In particolare, come si osserva nelle immagine tutti i nodi dell'albero (rappresentati da i vari sotto grafi) hanno una label con i due valori: visits e score.
+In particolare, come si osserva nelle immagini tutti i nodi dell'albero (rappresentati da i vari sotto grafi) hanno una label con i due valori: visits e score.
+
+I nodi foglia sono quelli a destra e in questo caso hanno 2 edge. Su tali nodi viene calcolato il valore di win o score. Tale valore sarà propagato su sul percorso dei nodi espansi (node-expansion)
+
 
