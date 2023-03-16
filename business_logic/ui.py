@@ -178,7 +178,7 @@ class MainWindow(QMainWindow):
     prediction_index = self.prediction_index_input.text()
 
     print('Tutto edge_index: ')
-    print(len(self.data['user', 'rates', 'movie'].edge_index[0]))
+    print(len(self.data['user', 'rates', 'item'].edge_index[0]))
     user = self.edge_index[0][int(prediction_index)]  ## Prendo il nodo a partire dall'arco specificato
     self.output_text.append('Inizio recezione grafo con neo4j su arco identificato come: ' + str(
       self.edge_index[0][int(prediction_index)]) + str(self.edge_index[1][int(prediction_index)]))
@@ -208,7 +208,7 @@ class MainWindow(QMainWindow):
     self.data, self.edge_index = read_data()
 
     print('Tutto edge_index: ')
-    print(len(self.data['user', 'rates', 'movie'].edge_index[0]))
+    print(len(self.data['user', 'rates', 'item'].edge_index[0]))
     user = self.edge_index[0][int(prediction_index)]  ## Prendo il nodo a partire dall'arco specificato
     self.output_text.append('Inizio recezione grafo con neo4j su arco identificato come: ' + str(
       self.edge_index[0][int(prediction_index)]) + str(self.edge_index[1][int(prediction_index)]))
@@ -226,7 +226,7 @@ class MainWindow(QMainWindow):
     final_hetero_data, final_predictions, self.model = allAlberto(data_clone)
     self.output_text.append('Fine allenamento rete neurale..')
 
-    # self.data['user','rates','movie'].edge_label_index = self.data['user','rates','movie'].edge_index ## Questa riga è quella che causa IndexError: The shape of the mask [16062] at index 0 does not match the shape of the indexed tensor [2, 16062] at index 0, Tuttavia l'istruzione sotto non funzionerebbe senza questa riga
+    # self.data['user','rates','item'].edge_label_index = self.data['user','rates','item'].edge_index ## Questa riga è quella che causa IndexError: The shape of the mask [16062] at index 0 does not match the shape of the indexed tensor [2, 16062] at index 0, Tuttavia l'istruzione sotto non funzionerebbe senza questa riga
     # self.evaluate_defensive_programming(self.data, self.model)
 
     edge = [self.edge_index[0][int(prediction_index)], self.edge_index[1][int(prediction_index)]]
@@ -270,7 +270,7 @@ class MainWindow(QMainWindow):
     self.data, self.edge_index = read_data()
 
     print('Tutto edge_index: ')
-    print(len(self.data['user', 'rates', 'movie'].edge_index[0]))
+    print(len(self.data['user', 'rates', 'item'].edge_index[0]))
     self.output_text.append(
       'Inizio recezione grafo con neo4j su arco identificato come: ' + str((self.source_index_input.text())) + str(
         self.target_index_input.text()))
@@ -285,7 +285,7 @@ class MainWindow(QMainWindow):
     final_hetero_data, final_predictions, self.model = allAlberto(data_clone)
     self.output_text.append('Fine allenamento rete neurale..')
 
-    # self.data['user','rates','movie'].edge_label_index = self.data['user','rates','movie'].edge_index ## Questa riga è quella che causa IndexError: The shape of the mask [16062] at index 0 does not match the shape of the indexed tensor [2, 16062] at index 0, Tuttavia l'istruzione sotto non funzionerebbe senza questa riga
+    # self.data['user','rates','item'].edge_label_index = self.data['user','rates','item'].edge_index ## Questa riga è quella che causa IndexError: The shape of the mask [16062] at index 0 does not match the shape of the indexed tensor [2, 16062] at index 0, Tuttavia l'istruzione sotto non funzionerebbe senza questa riga
     # self.evaluate_defensive_programming(self.data, self.model)
 
     edge = [torch.tensor(int(self.source_index_input.text())), torch.tensor(int(self.target_index_input.text()))]

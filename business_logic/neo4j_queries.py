@@ -103,12 +103,16 @@ def get_subgraph_from_neo4j_to_explainability(user_number, number_of_brothers):
   return edge_index, edge_label
 
 def get_subgraph_from_neo4j_to_explainability_starting_from_1_lv_subgraph(user_number):
-  uri = "bolt://localhost:7687"
+
+  uri = "neo4j://34.154.222.156:7687"
   user = "neo4j"
-  password = "3X1fJlNK_hQ2qIM8yn-Iz4tcOhsQNHgR7W8TVkatKwA"
+  password = "Ontologia235g!"
   myNeo4j = MyNeo4j(uri, user, password)
 
-  query = f'MATCH (u:User {{name: "{user_number}"}})-[r:RATES]->(n) RETURN u.name, n.name'
+ # query = f'MATCH (u:User {{name: "{user_number}"}})-[r:RATES]->(n) RETURN u.name, n.name'
+
+
+  query = "match(n:User {userId: 'https://www.merlot.org/merlot/viewMember.htm?id=1374986'})-[r:HAS_RATED]-(m:Article) return n, m"
 
   print(query)
 
@@ -120,4 +124,4 @@ def get_subgraph_from_neo4j_to_explainability_starting_from_1_lv_subgraph(user_n
   return edge_index, edge_label
 
 if __name__ == "__main__":
-  pass
+  get_subgraph_from_neo4j_to_explainability_starting_from_1_lv_subgraph('311')

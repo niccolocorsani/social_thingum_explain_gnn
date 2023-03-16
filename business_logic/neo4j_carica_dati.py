@@ -48,17 +48,17 @@ class App:
 if __name__ == "__main__":
 
   # uri = "neo4j+s://3b8c198b.databases.neo4j.io"
-  uri = "bolt://localhost:7687"
+  uri = "neo4j://34.154.222.156:7687"
   user = "neo4j"
-  password = "3X1fJlNK_hQ2qIM8yn-Iz4tcOhsQNHgR7W8TVkatKwA"
+  password = "Ontologia235g!"
   app = App(uri, user, password)
 
 
 #### Carica dati
   app.delete_all_nodes_and_relationships()
   data, edge_index = utility.read_data()
-  edge_index = data['user', 'rates', 'movie'].edge_index
-  edge_label = data['user', 'rates', 'movie'].edge_label
+  edge_index = data['user', 'rates', 'item'].edge_index
+  edge_label = data['user', 'rates', 'item'].edge_label
 
   print(edge_index.shape)
   app.load_data_to_neo4j(edge_index=edge_index, edge_label=edge_label)

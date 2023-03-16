@@ -29,7 +29,7 @@ class EdgeDecoderGAT(torch.nn.Module):
   def forward(self, z_dict, edge_label_index, alpha):
     row, col = edge_label_index  ## è il collegamento tra nodi
     # concat user and movie embeddings
-    z = torch.cat([z_dict['user'][row], z_dict['movie'][col]], dim=-1)
+    z = torch.cat([z_dict['user'][row], z_dict['item'][col]], dim=-1)
     # concatenated embeddings passed to linear layer
     z = self.lin1(z)
     z = self.relu(z)
@@ -52,23 +52,23 @@ def allAlberto(data):
   device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
   # Perform a link-level split into training, validation, and test edges.
-  train_data, val_data, test_data = T.RandomLinkSplit(
-    num_val=0.1,
-    num_test=0.1,
-    neg_sampling_ratio=0,
-    edge_types=[('user', 'rates', 'movie')],
-    rev_edge_types=[('movie', 'rev_rates', 'user')],
-  )(data)
-  weight = torch.bincount((train_data['user', 'movie'].edge_label * 5).int())
-  weight = weight.max() / weight
-  # ricardo: per normalizzare i pesi
-  weight = weight / 5
+  # train_data, val_data, test_data = T.RandomLinkSplit(
+  #   num_val=0.1,
+  #   num_test=0.1,
+  #   neg_sampling_ratio=0,
+  #   edge_types=[('user', 'rates', 'item')],
+  #   rev_edge_types=[('item', 'rev_rates', 'user')],
+  # )(data)
+  # weight = torch.bincount((train_data['user', 'item'].edge_label * 5).int())
+  # weight = weight.max() / weight
+  # # ricardo: per normalizzare i pesi
+  # weight = weight / 5
 
   def weighted_mse_loss(pred, target, weight=None):
     weight = 1. if weight is None else weight[target].to(pred.dtype)
     return (weight * (pred - target.to(pred.dtype)).pow(2)).mean()
 
-  train_data['movie', 'user'].edge_index.dtype
+  #train_data['item', 'user'].edge_index.dtype
 
   # model and train/val/test data is on cuda:0
   model = ModelGAT1(hidden_channels=32, data=data).to(device)
@@ -85,11 +85,11 @@ def allAlberto(data):
   def train():
     model.train()
     optimizer.zero_grad()
-    pred, alpha = model(train_data.x_dict, train_data.edge_index_dict,  ## Questo alpha è quello dell'attenzione
-                        train_data['user', 'movie'].edge_label_index)
+    pred, alpha = model(data.x_dict, data.edge_index_dict,  ## Questo alpha è quello dell'attenzione
+                        data['user', 'item'].edge_label_index)
 
 
-    target = train_data['user', 'movie'].edge_label
+    target = data['user', 'item'].edge_label
 
     loss = loss_custom(pred, target)
     loss.backward()
@@ -102,16 +102,16 @@ def allAlberto(data):
     predictions = []
     model.eval()
     pred, alpha = model(data.x_dict, data.edge_index_dict,
-                        data['user', 'movie'].edge_label_index)
+                        data['user', 'item'].edge_label_index)
     predictions = pred[:]
-    target = data['user', 'movie'].edge_label  # .float()
+    target = data['user', 'item'].edge_label  # .float()
     mse = loss_custom(pred, target)
     return float(mse), predictions
 
   # Due to lazy initialization, we need to run one model step so the number
   # of parameters can be inferred:
-  with torch.no_grad():
-    model.encoder(train_data.x_dict, train_data.edge_index_dict)
+  # with torch.no_grad():
+  #   model.encoder(train_data.x_dict, train_data.edge_index_dict)
   loss_train = []
   loss_val = []
   epochs_n = 50
@@ -121,15 +121,15 @@ def allAlberto(data):
   for epoch in range(epochs_n):
     if trigger < patience:
       loss = train()
-      train_rmse, pred_train = test(train_data)
-      val_rmse, pred_val = test(val_data)
-      test_rmse, pred_test = test(test_data)
-      loss_train.append(train_rmse)
-      loss_val.append(val_rmse)
-      if loss_val[epoch] > loss_val[epoch - 1]:
-        trigger += 1
+      # train_rmse, pred_train = test(train_data)
+      # val_rmse, pred_val = test(val_data)
+      # test_rmse, pred_test = test(test_data)
+      # loss_train.append(train_rmse)
+      # loss_val.append(val_rmse)
+      # if loss_val[epoch] > loss_val[epoch - 1]:
+      #   trigger += 1
 
-  return test_data, pred_test, model
+  return None, None, model
 def predict_with_GNN(data, model):
   loss_fn = nn.MSELoss()
 
@@ -143,8 +143,8 @@ def predict_with_GNN(data, model):
   def test_attention(data, model):
     model.eval()
     pred, alpha = model(data.x_dict, data.edge_index_dict,
-                        data['user', 'movie'].edge_label_index)
-    target = data['user', 'movie'].edge_label  # .float()
+                        data['user', 'item'].edge_label_index)
+    target = data['user', 'item'].edge_label  # .float()
     mse = loss_custom(pred, target)
     predList = []
     predL = list(pred)
