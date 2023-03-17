@@ -1,7 +1,7 @@
 # explainable!
 [Sub_graph_x_documentation.pdf](https://github.com/SocialThingsIT/explainable/files/10958899/Sub_graph_x_documentation.4.pdf)
 
-Il sistema MCTS è composto da più fasi che vengono eseguite in maniera iteritiva fin tanto che non viene trovato uno stato foglia ottimale.
+Il sistema MCTS è composto da più fasi che vengono eseguite in maniera iterativa fin tanto che non viene trovato uno stato foglia ottimale.
 
 Partendo da un albero del genere:
 
@@ -23,7 +23,7 @@ La conclusione della GIF è questa:
 
 ![Schermata 2023-03-13 alle 16 51 30](https://user-images.githubusercontent.com/126795492/224755527-bfd7e298-baae-4abe-a7ad-ba5c103d9795.png)
 
-Dopo questa fase vi sarebbe in teoria una nuova fase di back-propagation che aggiorna tutti i nodi (nel caso specifico 5 nodi) e poi la fase select, simulation e di nuovo node exapansion.
+Dopo questa fase vi sarebbe in teoria una nuova fase di back-propagation che aggiorna tutti i nodi (nel caso specifico 3 nodi) e poi la fase select, simulation e di nuovo node exapansion.
 
 Nella seguente immagine si può osservare un esempio di labeling:
 
