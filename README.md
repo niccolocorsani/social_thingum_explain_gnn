@@ -34,3 +34,9 @@ In particolare, come si osserva nelle immagini tutti i nodi dell'albero (rappres
 I nodi foglia sono quelli a destra e in questo caso hanno 2 edge. Su tali nodi viene calcolato il valore di win o score. Tale valore sarà propagato su sul percorso dei nodi espansi (node-expansion)
 
 
+
+
+https://user-images.githubusercontent.com/126795492/225911998-20cca48c-5c83-40fd-8b84-ff4dfcd97508.mov
+
+
+
