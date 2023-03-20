@@ -3,7 +3,7 @@ name: Build and push Docker image to GCR
 on:
   push:
     branches:
-      - main
+      - master
 
 env:
   IMAGE_NAME: explainable
