@@ -7,8 +7,17 @@ WORKDIR /app
 # Copia il file requirements.txt nella directory di lavoro
 COPY requirements.txt .
 
+
+
+
+RUN apt-get update && apt-get install -y libopenblas-dev
+
+RUN pip install numpy
+
+# Add other necessary commands and configurations
+
 # Aggiorna pip all'ultima versione disponibile
-RUN pip install --upgrade
+RUN pip install --upgrade pip
 
 
 # Installa le dipendenze specificate nel file requirements.txt
