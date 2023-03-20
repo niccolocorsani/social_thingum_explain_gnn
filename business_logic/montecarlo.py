@@ -4,7 +4,6 @@ from datetime import datetime
 from math import sqrt, log
 import defensive_programming
 import utility
-from annotations.log_annontation_from_class import LogMethodCalls
 from model_ml import predict_with_GNN
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

@@ -16,6 +16,11 @@ class MyWindow(QWidget):
     # Creazione dei bottoni
     self.button1 = QPushButton('Aggiorna Json, MySQL, BigQuery')
 
+
+
+
+
+
     # Creazione delle label
     self.label1 = QLabel(
       'La seguente feature permette di creare il Json a partire dai file di log.txt,\n successivmanete viene creato il DB Schema MySQL e aggiornati i dati di conseguenza. \n Infine viene trasferita la logica di MySQL su BigQuery.')
@@ -35,6 +40,7 @@ class MyWindow(QWidget):
     hbox2 = QHBoxLayout()
     vbox.addLayout(hbox2)
     vbox.addWidget(self.text_area)
+
 
     self.label2 = QLabel('Seleziona uno dei report per poter visualizzare i dati relativi alle esecuzioni Monte Carlo')
 
@@ -56,7 +62,15 @@ class MyWindow(QWidget):
     # Aggiunta del menu a tendina alla layout
     vbox.addWidget(self.combo_box)
 
+
+    vbox.addWidget(self.button2)
+
+
+
     self.setLayout(vbox)
+
+
+
 
   def handle_combo_box(self, index):
     option = self.combo_box.itemText(index)
@@ -107,6 +121,8 @@ class MyWindow(QWidget):
 
 
     webbrowser.open(('http://localhost:{}' + html_file_charts).format(port))
+
+
 
 
 if __name__ == '__main__':
