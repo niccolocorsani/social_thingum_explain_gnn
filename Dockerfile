@@ -8,6 +8,12 @@ WORKDIR /app
 COPY requirements.txt .
 
 
+
+
+RUN apt-get update && apt-get install -y libopenblas-dev
+
+RUN pip install numpy
+
 # Add other necessary commands and configurations
 
 # Aggiorna pip all'ultima versione disponibile
