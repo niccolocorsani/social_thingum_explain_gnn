@@ -17,13 +17,14 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == '__main__':
 
 
-  prediction_index = 56
+  prediction_index = 177
 
   number_of_brothers = 2
 
   ## Cose da preprocessing
   device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
   data, edge_index = read_data()
+  data['user','rates','item'].edge_label_index =  data['user','rates','item'].edge_index
   print('Tutto edge_index: ')
   print(len(data['user', 'rates', 'item'].edge_index[0]))
   user = edge_index[0][int(prediction_index)]

@@ -38,6 +38,8 @@ def ottieni_etero_data():
     'https://whoteach-scraper-microservice-agpvmcasea-oc.a.run.app/user/ratingsData', auth=HTTPBasicAuth(
       'dbZjdqRpqCup@neo4j', '30bqlw8c325D1AtK'), headers={'Accept': 'application/json'})
 
+
+
   df = json.loads(request.content)
   df = pd.DataFrame(df)
   columns = ['title', 'difficulty', 'domain', 'format', 'type', 'language']

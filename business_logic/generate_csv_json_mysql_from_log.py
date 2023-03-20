@@ -1,4 +1,3 @@
-from annotations.log_annotation_from_file import log_all_function_calls
 import os
 import mysql.connector
 import json
