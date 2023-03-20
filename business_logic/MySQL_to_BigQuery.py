@@ -24,6 +24,9 @@ def trasferisci_mysql_a_big_query():
 
   ##### bigQueryAuth
 
+
+
+
   # Configurazione delle informazioni per accedere a BigQuery
   project_id = 'your-project-id'
   credentials_info = {
