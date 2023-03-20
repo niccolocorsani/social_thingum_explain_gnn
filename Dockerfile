@@ -7,7 +7,8 @@ WORKDIR /app
 # Copia il file requirements.txt nella directory di lavoro
 COPY requirements.txt .
 
-
+RUN apk update && \
+    apk add some-package
 
 
 RUN apt-get update && apt-get install -y libopenblas-dev
