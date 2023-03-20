@@ -10,7 +10,6 @@ env:
   IMAGE_VERSION: 1.0.1
   GCR_PROJECT_ID: whoteach-dev
   GCR_REPOSITORY_NAME: explainable
-  GCR_REPOSITORY_URL: eu.gcr.io/${{ env.GCR_PROJECT_ID }}/${{ env.GCR_REPOSITORY_NAME }}
 
 
 
