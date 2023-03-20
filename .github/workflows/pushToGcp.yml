@@ -12,7 +12,6 @@ env:
   GCR_REPOSITORY_NAME: explainable
 
 
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
