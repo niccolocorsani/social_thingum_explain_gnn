@@ -306,6 +306,7 @@ class MonteCarlo:
     self.tree[current_root_node_id] = {'win': 0, 'visited': 0, 'childrens_id': ids_of_children_format_with_under_score}
 
   def search(self):
+    print('inizio search')
     self.list_of_final_leaf_graph = []
     iterations = 0
     root_node_id = str(0)
@@ -317,7 +318,6 @@ class MonteCarlo:
         self.simulation_montecarlo(node_id=best_child_id,
                                    edge_index=self.edge_index)
         iterations = iterations + 1
-        print(iterations)
 
         if iterations % 100 == 0:
           print(iterations)

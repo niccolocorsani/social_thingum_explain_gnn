@@ -35,7 +35,7 @@
   async function readData() {
 
     try {
-        await d3.json("starter_graph.txt", function (data) {
+        await d3.json("starter_graph.json", function (data) {
           links = data
           console.log(data);
           createGraph(data)
