@@ -27,6 +27,6 @@ jobs:
       - name: Build Docker image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} .
       - name: Tag Docker image
-        run: docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.GCR_REPOSITORY_URL }}:${{ env.IMAGE_VERSION }}
+        run: docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} eu.gcr.io/${{ env.GCR_PROJECT_ID }}/${{ env.GCR_REPOSITORY_NAME }}:${{ env.IMAGE_VERSION }}
       - name: Push Docker image
         run: docker push  eu.gcr.io/${{ env.GCR_PROJECT_ID }}/${{ env.GCR_REPOSITORY_NAME }}:${{ env.IMAGE_VERSION }}
