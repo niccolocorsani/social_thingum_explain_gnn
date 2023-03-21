@@ -38,6 +38,7 @@ Di seguito un'altra gif che rappresenta la sequenza di azioni svolte:
 ![info-software-tesi](https://user-images.githubusercontent.com/126795492/226555373-35b68195-07ca-4089-94b5-6248b5e1cde4.gif)
 
 
+[presentation.pptx](https://github.com/SocialThingsIT/explainable/files/11030731/presentation.pptx)
 
 
 
