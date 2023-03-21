@@ -60,6 +60,7 @@ if __name__ == '__main__':
                              min_graph_number_of_edges=int(min_edges), model=model,
                              prediction_to_evaluate_index=int(prediction_index), edge=edge,
                              number_of_brother=number_of_brothers)
+    print('istanza montecarlo creata')
     win_dic, list_of_final_dic = monte_carlo.search()
 
   run_all_pipeline_to_update_json_and_my_sql()

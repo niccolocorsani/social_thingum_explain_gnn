@@ -192,10 +192,10 @@ class MainWindow(QMainWindow):
 
   def run_simulation_with_index(self):
 
-    with open(ROOT_DIR + "/starter_graph.txt", 'w') as f:
+    with open(ROOT_DIR + "/starter_graph.json", 'w') as f:
       f.write('')
       f.close()
-    with open(ROOT_DIR + "/winner_graph.txt", 'w') as f:
+    with open(ROOT_DIR + "/winner_graph.json", 'w') as f:
       f.write('')
       f.close()
 
@@ -231,7 +231,7 @@ class MainWindow(QMainWindow):
 
     edge = [self.edge_index[0][int(prediction_index)], self.edge_index[1][int(prediction_index)]]
 
-    utility.write_to_graph_format(self.edge_index, ROOT_DIR + "/starter_graph.txt")
+    utility.write_to_graph_format(self.edge_index, ROOT_DIR + "/starter_graph.json")
 
     brothers = self.number_of_brothers.text()
 
@@ -255,10 +255,10 @@ class MainWindow(QMainWindow):
 
   def run_simulation_with_source_and_target_nodes_fast_way(self):
 
-    with open(ROOT_DIR + "/starter_graph.txt", 'w') as f:
+    with open(ROOT_DIR + "/starter_graph.json", 'w') as f:
       f.write('')
       f.close()
-    with open(ROOT_DIR + "/winner_graph.txt", 'w') as f:
+    with open(ROOT_DIR + "/winner_graph.json", 'w') as f:
       f.write('')
       f.close()
 
@@ -290,7 +290,7 @@ class MainWindow(QMainWindow):
 
     edge = [torch.tensor(int(self.source_index_input.text())), torch.tensor(int(self.target_index_input.text()))]
 
-    utility.write_to_graph_format(self.edge_index, ROOT_DIR + "/starter_graph.txt")
+    utility.write_to_graph_format(self.edge_index, ROOT_DIR + "/starter_graph.json")
 
     brothers = self.number_of_brothers.text()
 
