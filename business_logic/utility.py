@@ -31,13 +31,13 @@ def write_to_graph_format(edge_index, fileName):
     with open(fileName, "a") as file:
       if i == 0:
         file.write('[')
-        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(o) + '\"},\n')
+        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"item_' + str(o) + '\"},\n')
       if i == (edge_index.shape[
                  1] - 2):
-        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(o) + '\"}\n')
+        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"item_' + str(o) + '\"}\n')
         file.write(']')
       else:
-        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(
+        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"item_' + str(
           o) + '\"},\n')  ## JSON hanno bisogno delle virgolette nella key
 
 
@@ -52,13 +52,13 @@ def write_to_csv_format_user_rate_movie(edge_index, edge_label, fileName):
     with open(fileName, "a") as file:
       if i == 0:
         file.write('[')
-        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(o) + '\"},\n')
+        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"item_' + str(o) + '\"},\n')
       if i == (edge_index.shape[
                  1] - 2):
-        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(o) + '\"}\n')
+        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"item_' + str(o) + '\"}\n')
         file.write(']')
       else:
-        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"movie_' + str(
+        file.write('{\"source\":\"user_' + str(s) + '\", \"target\":\"item_' + str(
           o) + '\"},\n')  ## JSON hanno bisogno delle virgolette nella key
 
 

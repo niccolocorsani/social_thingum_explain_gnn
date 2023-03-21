@@ -53,7 +53,7 @@ def ottieni_etero_data():
   df['rate'] = [int(df.iloc[i]['rate']) for i in range(len(df))]
   df.rename(columns={'id': 'itemId'}, inplace=True)
   df = df[
-    df.rate > 0]  # df['rate'] = df['rate'].replace(0, 4)
+    df.rate > 0]
   for i in range(0, len(df)):
     keywords = ""
     for x in df.iloc[i].article['keywords']:
