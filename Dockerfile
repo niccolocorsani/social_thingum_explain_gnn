@@ -3,7 +3,7 @@ FROM python:3.9.16
 
 
 
-RUN pip install --upgrade pip
+
 
 # Crea una directory di lavoro
 WORKDIR /app
@@ -11,21 +11,19 @@ WORKDIR /app
 COPY requirements.txt .
 
 
-
-
-RUN pip install torch
-RUN TORCH=$(python -c "import torch; print(torch.__version__)")
-RUN echo -e "\e[31m${TORCH}\e[0m"
-
-RUN pip install -q torch-scatter -f https://data.pyg.org/whl/torch-${TORCH}.html
-RUN pip install -q torch-sparse -f https://data.pyg.org/whl/torch-${TORCH}.html
-RUN pip install -q git+https://github.com/pyg-team/pytorch_geometric.git
+RUN pip install --upgrade pip  \
+    && pip install torch \
+      && TORCH=$(python -c "import torch; print(torch.__version__)") \
+        && echo "${TORCH}"  \
+         && echo https://data.pyg.org/whl/torch-${TORCH}.html  \
+            && pip install -q torch-scatter -f https://data.pyg.org/whl/torch-${TORCH}.html  \
+             && echo https://data.pyg.org/whl/torch-${TORCH}.html  \
+               && pip install -q torch-sparse -f https://data.pyg.org/whl/torch-${TORCH}.html  \
+                 && pip install -q git+https://github.com/pyg-team/pytorch_geometric.git
 
 RUN pip install PyQt6
 RUN pip install mysql
 RUN pip install neo4j
-
-
 RUN pip install numpy~=1.24.2
 RUN pip install scikit-learn~=1.2.2
 RUN pip install tqdm~=4.65.0
