@@ -6,9 +6,9 @@ mysql-connector-python==8.0.32
 neo4j==5.6.0
 pandas==1.5.3
 protobuf==3.20.3
-#torch==1.10.1 # per fare funzionare il dockerfile questa dipendenza deve essere isntallata con il comando pip, però per testare il sistema senza docker funziona invece
-torch_sparse==0.6.16
-torch_scatter==2.1.1
 google-cloud-bigquery==3.7.0
 mysql~=0.0.3
 #torch_geometric==2.3.0 # Poichè qui da errore se lo metto così, va installato con pip: pip install torch_geometric==2.3.0 --default-timeout=300
+#torch==1.10.1 # per fare funzionare il dockerfile questa dipendenza deve essere isntallata con il comando pip, però per testare il sistema senza docker funziona invece
+#torch_sparse==0.6.16
+#torch_scatter==2.1.1

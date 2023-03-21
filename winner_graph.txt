@@ -1,5 +1,0 @@
-[{"source":"user_186", "target":"movie_332"},
-{"source":"user_186", "target":"movie_332"},
-{"source":"user_186", "target":"movie_378"},
-{"source":"user_186", "target":"movie_656"}
-]
