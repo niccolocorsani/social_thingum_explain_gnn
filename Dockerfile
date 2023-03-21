@@ -7,6 +7,13 @@ WORKDIR /app
 COPY requirements.txt .
 
 
+# Crea la directory /etc/cgroup/memory/docker
+RUN mkdir -p /etc/cgroup/memory/docker
+
+# Imposta la quantità di memoria massima disponibile all'interno dell'immagine Docker a 4 GB
+RUN echo "memory.limit_in_bytes = 4G" > /etc/cgroup/memory/docker/memory.limit_in_bytes
+
+
 RUN pip install --upgrade pip  \
     && pip install virtualenv \
       && virtualenv venv \
@@ -14,11 +21,14 @@ RUN pip install --upgrade pip  \
           && pip install torch \
             && TORCH=$(python -c "import torch; print(torch.__version__)") \
               && echo "${TORCH}"  \
-               && echo https://data.pyg.org/whl/torch-${TORCH}.html  \
+                && echo https://data.pyg.org/whl/torch-${TORCH}.html  \
                   && pip install -q torch-scatter -f https://data.pyg.org/whl/torch-${TORCH}.html  \
-                   && echo https://data.pyg.org/whl/torch-${TORCH}.html  \
+                   && echo 'istallazione torch-scatter-completata'  \
                      && pip install -q torch-sparse -f https://data.pyg.org/whl/torch-${TORCH}.html  \
-                       && pip install -q git+https://github.com/pyg-team/pytorch_geometric.git
+                       && echo 'istallazione torch-sparse-completata'  \
+                          && pip install -q git+https://github.com/pyg-team/pytorch_geometric.git \
+                            && echo 'istallazione torch-geometric completata'  \
+
 
 RUN pip install PyQt6
 RUN pip install mysql
