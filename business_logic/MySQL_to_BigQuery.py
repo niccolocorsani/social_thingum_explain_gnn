@@ -22,11 +22,6 @@ def trasferisci_mysql_a_big_query():
   cursor.execute("SHOW TABLES")
   tables = [table[0] for table in cursor]
 
-  ##### bigQueryAuth
-
-
-
-
   # Configurazione delle informazioni per accedere a BigQuery
   project_id = 'your-project-id'
   credentials_info = {
@@ -56,7 +51,7 @@ def trasferisci_mysql_a_big_query():
   cnx = mysql.connector.connect(**mysql_config)
 
   df = pd.read_sql_query('SELECT * FROM subgraph',
-                         cnx)  ## TODO come si vede in questa riga, il df non prende bene una colonna che imposta tutti i valori a Nan.... Passare da dataframe a list normale
+                         cnx)
   df = df.apply(lambda x: x if x.name == 'nodes_corresponding_to_index_prediction_to_evaluate' else pd.to_numeric(x,
                                                                                                                   errors='coerce'),
                 axis=0)
@@ -67,6 +62,7 @@ def trasferisci_mysql_a_big_query():
   # Creare una lista di oggetti SchemaField di BigQuery
   schema = []
 
+  # Mettere i tipi nel formato che piace a BigQuery
   for name, field_type in zip(columns, dtypes):
     print(name)
     print(field_type)
@@ -83,7 +79,7 @@ def trasferisci_mysql_a_big_query():
   dataset_name = 'dataset_name'
 
   # Ottieni una lista di tutte le tabelle nel dataset
-  tables = client.list_tables(dataset_name)
+  client.list_tables(dataset_name)
 
   # # Itera su ogni tabella e rimuovila
   # for table in tables:
@@ -91,11 +87,11 @@ def trasferisci_mysql_a_big_query():
   #   client.delete_table(table_ref)
   #   print(f'Tabella {table.table_id} rimossa dal dataset {dataset_name}')
 
-  # TODO se prima voglio eliminare la tabella e ricrearla, devo mettere un timeout lungo, se no non troverà la tabella nel codice seguente
-  # TODO Come work around attulae, prima di ogni esecuzione devo eliminare le tabelle a mano, fare run manuali finchè non l'ha creato ecc....
+  # Se prima voglio eliminare la tabella e ricrearla, devo mettere un timeout lungo, se no non troverà la tabella nel codice seguente
+  # Come work around attulae, prima di ogni esecuzione devo eliminare le tabelle a mano, fare run manuali finchè non l'ha creato ecc....
   table_ref = client.dataset('dataset_name').table('subgraph1')
   table = bigquery.Table(table_ref, schema=schema)
-  #table = client.create_table(table)
+  # table = client.create_table(table)
 
   # Caricare i dati del dataframe pandas nella tabella di BigQuery
   rows_to_insert = df.values.tolist()
@@ -133,7 +129,8 @@ def trasferisci_mysql_a_big_query():
 
   table_ref = client.dataset('dataset_name').table('edges1')
   table = bigquery.Table(table_ref, schema=schema)
-  #table = client.create_table(table)
+
+  # table = client.create_table(table)
 
   # Caricare i dati del dataframe pandas nella tabella di BigQuery
   rows_to_insert = df.values.tolist()

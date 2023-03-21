@@ -3,13 +3,13 @@ import mysql.connector
 import json
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#log_all_function_calls(__name__)
 
+# log_all_function_calls(__name__)
 
 def convert_log_to_json(log_file_path, json_file_path):
   with open(log_file_path, 'r') as f:
     logs = f.read().split('\n\n')
-####TODO Perhcè prende sempre gli stessi valori ??
+  ####TODO Perhcè prende sempre gli stessi valori ??
   results = []
   for log in logs:
     if not log:
@@ -48,7 +48,7 @@ def convert_log_to_json(log_file_path, json_file_path):
         elif key == 'win':
           value = float(value)
         elif key == 'difference_in_prediction':
-          value = float(value.replace('tensor(','').replace(')',''))
+          value = float(value.replace('tensor(', '').replace(')', ''))
         elif key == 'current_time':
           continue
         log_dict[key] = value
@@ -56,9 +56,6 @@ def convert_log_to_json(log_file_path, json_file_path):
 
   with open(json_file_path, 'w') as f:
     json.dump(results, f)
-
-
-
 
 
 def get_mysql_connection():
@@ -71,8 +68,8 @@ def get_mysql_connection():
   )
   return conn
 
-def drop_all_tables(conn):
 
+def drop_all_tables(conn):
   # get a cursor object
   cursor = conn.cursor()
 
@@ -89,6 +86,7 @@ def drop_all_tables(conn):
   conn.commit()
   cursor.close()
   conn.close()
+
 
 def create_tables(conn):
   cursor = conn.cursor()
@@ -108,14 +106,12 @@ def load_json_to_mysql(json_file, conn):
     json_data = json.load(f)
 
   cursor = conn.cursor()
-  # Inserimento dei dati nella tabella "subgraph"
-  values = []
   edge_values = []
   for item in json_data:
     nodes = json.dumps(item["nodes_corresponding_to_index_prediction_to_evaluate"])
     subgraph_values = (
-    item["index_prediction_to_evaluate"], nodes, item["min_number_of_edges"], item["deepnes_of_node_expansion"],
-    item["win"], item['number_of_brother'], item['difference_in_prediction'])
+      item["index_prediction_to_evaluate"], nodes, item["min_number_of_edges"], item["deepnes_of_node_expansion"],
+      item["win"], item['number_of_brother'], item['difference_in_prediction'])
     cursor.execute(
       "INSERT INTO subgraph (index_prediction_to_evaluate, nodes_corresponding_to_index_prediction_to_evaluate, min_number_of_edges, deepnes_of_node_expansion, win,number_of_brother, difference_in_prediction) VALUES (%s, %s, %s, %s, %s,%s,%s)",
       subgraph_values)
@@ -133,10 +129,7 @@ def load_json_to_mysql(json_file, conn):
   conn.close()
 
 
-
 def run_all_pipeline_to_update_json_and_my_sql():
-
-
   conn = get_mysql_connection()
   drop_all_tables(conn)
   conn.connect()
@@ -144,16 +137,10 @@ def run_all_pipeline_to_update_json_and_my_sql():
   conn.connect()
 
   for file in os.listdir(ROOT_DIR + '/logs'):
-
-
-    convert_log_to_json(ROOT_DIR + '/logs/'+file, ROOT_DIR + '/jsons/'+file.replace('.txt','')+'.json')
+    convert_log_to_json(ROOT_DIR + '/logs/' + file, ROOT_DIR + '/jsons/' + file.replace('.txt', '') + '.json')
     conn = get_mysql_connection()
-    load_json_to_mysql(ROOT_DIR + '/jsons/'+file.replace('.txt','')+'.json', conn)
-
+    load_json_to_mysql(ROOT_DIR + '/jsons/' + file.replace('.txt', '') + '.json', conn)
 
 
 if __name__ == '__main__':
-
   run_all_pipeline_to_update_json_and_my_sql()
-
-

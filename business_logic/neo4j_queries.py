@@ -97,7 +97,7 @@ def get_subgraph_from_neo4j_to_explainability(user_number, number_of_brothers):
   results = myNeo4j.run_query(query)
   edge_index, edge_label = parse_data(results)
   edge_index, edge_label = remove_duplicate_columns(edge_index, edge_label)
-  utility.write_to_graph_format(edge_index, ROOT_DIR + '/starter_graph' + '.txt')
+  utility.write_to_graph_format(edge_index, ROOT_DIR + '/starter_graph' + '.json')
   print('Fine caricamento dati da neo4j')
 
   return edge_index, edge_label
@@ -118,7 +118,7 @@ def get_subgraph_from_neo4j_to_explainability_starting_from_1_lv_subgraph(user_n
 
   results = myNeo4j.run_query(query)
   edge_index, edge_label = parse_data_lv1(results)
-  utility.write_to_graph_format(edge_index, ROOT_DIR + '/starter_graph' + '.txt')
+  utility.write_to_graph_format(edge_index, ROOT_DIR + '/starter_graph' + '.json')
   print('Fine caricamento dati da neo4j')
 
   return edge_index, edge_label

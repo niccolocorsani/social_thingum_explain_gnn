@@ -1,14 +1,12 @@
 import os
-
 import torch
-
 import defensive_programming
 import neo4j_queries
 from MySQL_to_BigQuery import trasferisci_mysql_a_big_query
 from generate_csv_json_mysql_from_log import run_all_pipeline_to_update_json_and_my_sql
 from model_ml import allAlberto
 from montecarlo import MonteCarlo, get_index_starting_from_nodes
-from utility import read_data, removeFilesFromFolder
+from utility import read_data
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -35,15 +33,12 @@ if __name__ == '__main__':
 
 
 #### Da rimuovere assolutamente in produzione
-  defensiveProgramming = defensive_programming.DefensiveProgramming()
-  data['user', 'rates', 'item'].edge_label_index = data['user', 'rates', 'item'].edge_index
-  defensiveProgramming.evaluate(test_data=data, model=model)
+  # defensiveProgramming = defensive_programming.DefensiveProgramming()
+  # data['user', 'rates', 'item'].edge_label_index = data['user', 'rates', 'item'].edge_index
+  # defensiveProgramming.evaluate(test_data=data, model=model)
 #### Da rimuovere assolutamente in produzione
 
   edge = [edge_index[0][int(prediction_index)], edge_index[1][int(prediction_index)]]
-
-  # prediction_index = get_index_starting_from_nodes(edge_index,edge) #### TODO attenzione l'edge preso non è effettivamente l'edge giusto, questo perchè faccio un cambio di grafo con la query neo4j.... e c'è un bug..... quindi il comportamento è lo stesso, ma l'edge non è quella 0..90
-  # edge = [edge_index[0][int(prediction_index)], edge_index[1][int(prediction_index)]]
 
   prediction_index = get_index_starting_from_nodes(edge_index, edge)
   print(edge)

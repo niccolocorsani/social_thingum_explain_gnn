@@ -326,7 +326,7 @@ class MonteCarlo:
     win_dic = max(self.list_of_final_leaf_graph,
                   key=lambda x: x['win'])
     utility.write_to_graph_format(win_dic['edge_index'],
-                                  ROOT_DIR + '/winner_graph' + '.txt')
+                                  ROOT_DIR + '/winner_graph' + '.json')
 
 
 
@@ -335,10 +335,6 @@ class MonteCarlo:
 
 
     print(today)
-
-
-#### TODO levare il diff dalla scrittura e dal progetto in generale
-#### TODO è normale che diff sia incoerente con win, win_dic fa riferimento al miglior dizionario, diff fa riferimento all'ultimo valore ritornato win_dic a diff
     with open(ROOT_DIR + '/logs/'+str(today)+'.txt', mode='a') as f:
       f.write('current_time: '+str(datetime.now())+';edge_index: ' + str(win_dic['edge_index']).replace("\n", "") + ';index_prediction_to_evaluate: ' + str(
         self.prediction_to_evaluate_index).replace("\n",
@@ -349,8 +345,8 @@ class MonteCarlo:
         self.deepnes_of_node_expansion).replace("\n", "") + ';win: ' + str(win_dic['win']).replace("\n", "") +';difference_in_prediction: '+str(win_dic['diff'])+';number_of_brother: '+str(self.number_of_brother) +'\n')
 
     ## Controllo così da levare in produzione
-    if win_dic['edge_index'].shape != (2, self.min_graph_number_of_edges):
-      defensive_programming.DefensiveProgramming.launch_allert(self, text_alert='Dimensione edge index non corretta')
+    # if win_dic['edge_index'].shape != (2, self.min_graph_number_of_edges):
+    #   defensive_programming.DefensiveProgramming.launch_allert(self, text_alert='Dimensione edge index non corretta')
     ## Controllo così da levare in produzione
 
     return win_dic, self.list_of_final_leaf_graph

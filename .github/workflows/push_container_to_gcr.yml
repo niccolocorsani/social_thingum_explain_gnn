@@ -8,7 +8,7 @@ on:
 env:
   IMAGE_NAME: explainable
   IMAGE_VERSION: v1.0.1
-  GCR_PROJECT_ID: virtual-plexus-379510
+  GCR_PROJECT_ID: virtual-plexus-379510 # questo valore si trova sotto il nome del progetto al link: https://console.cloud.google.com/
   GCR_REPOSITORY_NAME: explainable
 
 
