@@ -148,9 +148,6 @@ if __name__ == '__main__':
   prediction_index = get_index_starting_from_nodes(data['user', 'rates', 'item'].edge_index , edge)
   print(prediction_index)
 
-
-
-
   montecarlo = MonteCarlo(heterodata=data, edge_index=data[
     'user', 'rates', 'item'].edge_index, deepnes_of_node_expansion=int(20),
                                         min_graph_number_of_edges=int(20), model=model,

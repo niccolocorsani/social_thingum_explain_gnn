@@ -1,4 +1,4 @@
-name: Build and push Docker images to GCR
+name: Build and push Docker images to GCR with dockercompose
 
 on:
   push:

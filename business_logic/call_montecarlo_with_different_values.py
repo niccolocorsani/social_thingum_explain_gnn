@@ -46,7 +46,7 @@ if __name__ == '__main__':
   deepnes = 30
   min_edges = 4
 
-  for i in range(100):
+  for i in range(5):
     print(i)
     deepnes = deepnes + 5
     #min_edges = min_edges + i
