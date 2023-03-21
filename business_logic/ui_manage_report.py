@@ -1,8 +1,6 @@
 import os
-
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QTextEdit, QVBoxLayout, QHBoxLayout, QComboBox
 import sys
-
 from MySQL_to_BigQuery import trasferisci_mysql_a_big_query
 from generate_csv_json_mysql_from_log import run_all_pipeline_to_update_json_and_my_sql
 
@@ -61,11 +59,6 @@ class MyWindow(QWidget):
 
     # Aggiunta del menu a tendina alla layout
     vbox.addWidget(self.combo_box)
-
-
-    vbox.addWidget(self.button2)
-
-
 
     self.setLayout(vbox)
 

@@ -1,5 +1,31 @@
-version: "3.9"
+version: '3.9'
+
 services:
-   gnn-python-app:
+  gnn-python-app:
     platform: linux/arm64
     build: .
+  neo4j:
+    image: neo4j:4.4.0
+    restart: always
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+    environment:
+      NEO4J_AUTH: neo4j/neo4j
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: mydatabase
+
+volumes:
+  neo4j_data:
+  mysql_data:
