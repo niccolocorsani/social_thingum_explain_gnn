@@ -12,14 +12,16 @@ COPY requirements.txt .
 
 
 RUN pip install --upgrade pip  \
-    && pip install torch \
-      && TORCH=$(python -c "import torch; print(torch.__version__)") \
-        && echo "${TORCH}"  \
-         && echo https://data.pyg.org/whl/torch-${TORCH}.html  \
-            && pip install -q torch-scatter -f https://data.pyg.org/whl/torch-${TORCH}.html  \
+    && pip install virtualenv \
+      && virtualenv venv \
+        && pip install torch \
+          && TORCH=$(python -c "import torch; print(torch.__version__)") \
+            && echo "${TORCH}"  \
              && echo https://data.pyg.org/whl/torch-${TORCH}.html  \
-               && pip install -q torch-sparse -f https://data.pyg.org/whl/torch-${TORCH}.html  \
-                 && pip install -q git+https://github.com/pyg-team/pytorch_geometric.git
+                && pip install -q torch-scatter -f https://data.pyg.org/whl/torch-${TORCH}.html  \
+                 && echo https://data.pyg.org/whl/torch-${TORCH}.html  \
+                   && pip install -q torch-sparse -f https://data.pyg.org/whl/torch-${TORCH}.html  \
+                     && pip install -q git+https://github.com/pyg-team/pytorch_geometric.git
 
 RUN pip install PyQt6
 RUN pip install mysql
