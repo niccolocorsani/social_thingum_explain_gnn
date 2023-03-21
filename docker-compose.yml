@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   gnn-python-app:
-    platform: linux/arm64
+   # platform: linux/arm64
     build: .
   neo4j:
     image: neo4j:4.4.0
