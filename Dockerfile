@@ -34,7 +34,7 @@ RUN pip install PyQt6 mysql neo4j numpy~=1.24.2 scikit-learn~=1.2.2 tqdm~=4.65.0
 
 
 # Copia la cartella business_logic nella directory di lavoro
-COPY business_logic ./business_logic
+COPY ./business_logic ./business_logic
 
 # Espone la porta su cui l'applicazione sarà in ascolto (modificare il numero di porta in base alle proprie esigenze)
 EXPOSE 8000
