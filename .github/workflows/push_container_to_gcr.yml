@@ -1,4 +1,4 @@
-name: Build and push Docker image to GCR only with a docjerfile
+name: Build and push Docker image to GCR only with a dockerfile
 
 on:
   push:
