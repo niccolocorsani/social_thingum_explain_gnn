@@ -1,15 +1,15 @@
 # Utilizza un'immagine Python ufficiale come base
 FROM python:3.9.16
 
-
 # Installa libGL
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
+
+RUN apt-get update && apt-get install -y libxkbcommon0
 
 # Crea una directory di lavoro
 WORKDIR /app
 
 COPY requirements.txt .
-
 
 # Crea la directory /etc/cgroup/memory/docker
 RUN mkdir -p /etc/cgroup/memory/docker
