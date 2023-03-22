@@ -1,6 +1,10 @@
 # Utilizza un'immagine Python ufficiale come base
 FROM python:3.9.16
 
+
+# Installa libGL
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
+
 # Crea una directory di lavoro
 WORKDIR /app
 
