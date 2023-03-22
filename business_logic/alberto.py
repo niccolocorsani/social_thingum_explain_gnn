@@ -106,7 +106,6 @@ def ottieni_etero_data():
   item_x = torch.cat(
     [keywords_embedding, encoded_languages, difficulty_encoded, age_encoded, encoded_formats, encoded_types,
      encoded_domains], dim=-1)
-  item_x.shape
   edge_index = torch.tensor([list(df.enc_user), list(df.enc_item)], device=device)
 
   edge_label = torch.tensor(list(df.rate), device=device)
@@ -131,8 +130,7 @@ def ottieni_etero_data():
   del data['item', 'rev_rates', 'user'].edge_label
   data = data.to(device)
 
-  print(data[
-          'user', 'rates', 'item'].edge_label_index)
+  print(data['user', 'rates', 'item'].edge_label_index)
 
 
   return data
