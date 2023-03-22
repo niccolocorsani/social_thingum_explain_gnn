@@ -15,9 +15,6 @@ RUN echo "memory.limit_in_bytes = 4G" > /etc/cgroup/memory/docker/memory.limit_i
 
 
 RUN pip install --upgrade pip  \
-    && pip install virtualenv \
-      && virtualenv venv \
-        && . venv/bin/activate \
           && pip install torch \
             && TORCH=$(python -c "import torch; print(torch.__version__)") \
               && echo "${TORCH}"  \
