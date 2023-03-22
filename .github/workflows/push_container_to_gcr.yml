@@ -10,6 +10,7 @@ env:
   IMAGE_VERSION: v1.0.1
   GCR_PROJECT_ID: virtual-plexus-379510 # questo valore si trova sotto il nome del progetto al link: https://console.cloud.google.com/
   GCR_REPOSITORY_NAME: explainable
+  CLOUD_RUN_SERVICE_NAME: explainable-service
 
 
 jobs:
@@ -30,3 +31,17 @@ jobs:
         run: docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} eu.gcr.io/${{ env.GCR_PROJECT_ID }}/${{ env.GCR_REPOSITORY_NAME }}:${{ env.IMAGE_VERSION }}
       - name: Push Docker image
         run: docker push  eu.gcr.io/${{ env.GCR_PROJECT_ID }}/${{ env.GCR_REPOSITORY_NAME }}:${{ env.IMAGE_VERSION }}
+
+
+
+      - name: Deploy Docker image to Cloud Run
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ env.GCR_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
+        run: |
+          gcloud run deploy ${{ env.CLOUD_RUN_SERVICE_NAME }} \
+            --image=eu.gcr.io/${{ env.GCR_PROJECT_ID }}/${{ env.GCR_REPOSITORY_NAME }}:${{ env.IMAGE_VERSION }} \
+            --platform=managed \
+            --region=europe-west8 \
+            --allow-unauthenticated
