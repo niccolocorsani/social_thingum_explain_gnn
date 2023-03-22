@@ -43,7 +43,7 @@ if __name__ == '__main__':
   prediction_index = get_index_starting_from_nodes(edge_index, edge)
   print(edge)
 
-  deepnes = 30
+  deepnes = 2
   min_edges = 4
 
   for i in range(5):

@@ -78,10 +78,10 @@ def ottieni_etero_data():
 
 ############ Da levare
   # for each element of df['enc_user'] print element
-  for i in range(len(df['enc_user'])):
-    query = 'match(n:User {userId:"' + str(df['userId'][i]) + '"}) set n.user_id_enc="' + str(df['enc_user'][i]) + '"'
-    print(query)
-    myNeo4j.run_query(query)
+  # for i in range(len(df['enc_user'])):
+  #   query = 'match(n:User {userId:"' + str(df['userId'][i]) + '"}) set n.user_id_enc="' + str(df['enc_user'][i]) + '"'
+  #   print(query)
+  #   myNeo4j.run_query(query)
 ############ Da levare
 
   df = df[['enc_user', 'userId', 'enc_item', 'itemId', 'rate', 'title', 'difficulty', 'domain', 'min_age', 'language', 'type','format', 'keywords']]
@@ -149,8 +149,8 @@ if __name__ == '__main__':
   print(prediction_index)
 
   montecarlo = MonteCarlo(heterodata=data, edge_index=data[
-    'user', 'rates', 'item'].edge_index, deepnes_of_node_expansion=int(20),
-                                        min_graph_number_of_edges=int(20), model=model,
+    'user', 'rates', 'item'].edge_index, deepnes_of_node_expansion=int(2),
+                                        min_graph_number_of_edges=int(200), model=model,
                                         prediction_to_evaluate_index=int(prediction_index), edge=edge,
                                         number_of_brother=0)
   montecarlo.search()
