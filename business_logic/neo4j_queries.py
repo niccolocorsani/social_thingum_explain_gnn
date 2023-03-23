@@ -1,7 +1,6 @@
 import os
 import torch
 from neo4j import GraphDatabase
-import defensive_programming
 import utility
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
