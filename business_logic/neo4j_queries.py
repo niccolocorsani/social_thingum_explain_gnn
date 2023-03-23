@@ -5,8 +5,6 @@ import utility
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-
 def parse_data_lv1(data):
   source_nodes = []
   target_nodes = []
