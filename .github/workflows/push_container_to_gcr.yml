@@ -39,6 +39,6 @@ jobs:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
 
       - name: Deploy Docker image to Cloud Run
-        run: gcloud run deploy ${{ env.CLOUD_RUN_SERVICE_NAME }} --image=eu.gcr.io/${{ env.GCR_PROJECT_ID }}/${{ env.GCR_REPOSITORY_NAME }}:${{ env.IMAGE_VERSION }} --platform=managed --region=europe-west8 --allow-unauthenticated
+        run: gcloud run deploy ${{ env.CLOUD_RUN_SERVICE_NAME }} --image=eu.gcr.io/${{ env.GCR_PROJECT_ID }}/${{ env.GCR_REPOSITORY_NAME }}:${{ env.IMAGE_VERSION }} --platform=managed --region=europe-west8 --allow-unauthenticated --memory=1Gi
 
 
