@@ -1,6 +1,5 @@
 import torch
 from flask import Flask, request, send_file
-
 from alberto import ottieni_etero_data, get_index_starting_from_nodes
 from model_ml import allAlberto
 from montecarlo import MonteCarlo
@@ -27,10 +26,10 @@ def hello_world():
 
   return 'Hello, World!'
 
-@app.route('/api/v1/get_json_of_best_subgraph')
+@app.route('/get_json_of_best_subgraph')
 def api_hello_v1():
 
-  # http://127.0.0.1:5000/api/v1/get_json_of_best_subgraph?source_node=311&target_node=872
+  # http://127.0.0.1:5000/get_json_of_best_subgraph?source_node=311&target_node=872
     source_node = request.args.get('source_node')
     target_node = request.args.get('target_node')
 
@@ -51,15 +50,15 @@ def api_hello_v1():
 
 
     try:
+
       return send_file('winner_graph.json', attachment_filename='/winner_graph.json', as_attachment=True,
                        mimetype='application/json')
+
     except Exception as e:
+
       return str(e)
 
 
-@app.route('/api/v2/hello')
-def api_hello_v2():
-    return 'Hello, World! - API v2'
 
 if __name__ == '__main__':
     app.run()
