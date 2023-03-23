@@ -2,7 +2,7 @@ import os
 import random
 from datetime import datetime
 from math import sqrt, log
-import defensive_programming
+#import defensive_programming
 import utility
 from model_ml import predict_with_GNN
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -201,8 +201,9 @@ class MonteCarlo:
     try:
       predictions = predict_with_GNN(new_data, self.model)
     except:
-      defensive_programming.DefensiveProgramming.launch_allert(self,
-                                                               'The dimension of the leaf graph is higher than the dimension of the root graph. Try to increase the number of brothers')
+      print('The dimension of the leaf graph is higher than the dimension of the root graph. Try to increase the number of brothers')
+      #defensive_programming.DefensiveProgramming.launch_allert(self,
+      #                                                         'The dimension of the leaf graph is higher than the dimension of the root graph. Try to increase the number of brothers')
     index_of_prediction_to_evaluate = get_index_starting_from_nodes(edge_index, self.edge)
 ## Da rimuovere in produzione
     # if new_data['user', 'rates', 'item'].edge_label[index_of_prediction_to_evaluate] != self.value_of_prediction:
