@@ -1,3 +1,5 @@
+import os
+
 import torch
 from flask import Flask, request, send_file
 from alberto import ottieni_etero_data, get_index_starting_from_nodes
@@ -61,4 +63,4 @@ def api_hello_v1():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
