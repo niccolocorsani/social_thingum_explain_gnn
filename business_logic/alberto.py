@@ -34,11 +34,11 @@ def Encoder(data, metadata):
 
 
 def ottieni_etero_data():
+
+
   request = requests.get(
     'https://whoteach-scraper-microservice-agpvmcasea-oc.a.run.app/user/ratingsData', auth=HTTPBasicAuth(
       'dbZjdqRpqCup@neo4j', '30bqlw8c325D1AtK'), headers={'Accept': 'application/json'})
-
-
 
   df = json.loads(request.content)
   df = pd.DataFrame(df)
@@ -146,8 +146,7 @@ if __name__ == '__main__':
   prediction_index = get_index_starting_from_nodes(data['user', 'rates', 'item'].edge_index , edge)
   print(prediction_index)
 
-  montecarlo = MonteCarlo(heterodata=data, edge_index=data[
-    'user', 'rates', 'item'].edge_index, deepnes_of_node_expansion=int(2),
+  montecarlo = MonteCarlo(heterodata=data, edge_index=data['user', 'rates', 'item'].edge_index, deepnes_of_node_expansion=int(2),
                                         min_graph_number_of_edges=int(200), model=model,
                                         prediction_to_evaluate_index=int(prediction_index), edge=edge,
                                         number_of_brother=0)
