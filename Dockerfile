@@ -59,7 +59,7 @@ RUN pip install neo4j
 
 RUN pip install mysql
 
-RUN pip instal Flask
+RUN pip install Flask
 
 # Copia la cartella business_logic nella directory di lavoro
 COPY ./business_logic ./business_logic
