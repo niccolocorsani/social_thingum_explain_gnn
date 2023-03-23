@@ -45,6 +45,7 @@ def get_json():
 
       return str(e)
 
+@app.route('/get_html_of_best_graph')
 def get_html():
   return render_template('winner_graph.html')
 
