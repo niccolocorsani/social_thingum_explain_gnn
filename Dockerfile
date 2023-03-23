@@ -42,4 +42,4 @@ COPY ./business_logic ./business_logic
 EXPOSE 8000
 
 # Esegui l'applicazione Python (ui.py) quando il container viene avviato
-CMD ["python", "business_logic/ui.py"]
+CMD ["python", "business_logic/alberto.py"]
