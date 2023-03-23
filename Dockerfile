@@ -63,7 +63,7 @@ RUN pip install mysql
 COPY ./business_logic ./business_logic
 
 # Espone la porta su cui l'applicazione sarà in ascolto (modificare il numero di porta in base alle proprie esigenze)
-EXPOSE 8000
+EXPOSE 8080
 
 # Esegui l'applicazione Python (ui.py) quando il container viene avviato
 CMD ["python", "business_logic/alberto.py"]
