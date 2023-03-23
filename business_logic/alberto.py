@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 import torch
-from torch_geometric.transforms import  ToUndirected
+from torch_geometric.transforms import ToUndirected
 from torch_geometric.data import HeteroData
 from sklearn.preprocessing import LabelEncoder
 import json
@@ -12,11 +12,14 @@ from montecarlo import MonteCarlo
 from neo4j_queries import MyNeo4j
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+
 def get_index_starting_from_nodes(edge_index, edge):
   for i in range(edge_index.shape[1]):
     if edge_index[:, i][0] == edge[0].item() and edge_index[:, i][1] == edge[1].item():
       return i
   return None
+
 
 def Encoder(data, metadata):
   items = []
@@ -31,9 +34,8 @@ def Encoder(data, metadata):
     x[i, mapping[m_lang]] = 1
   return x.to(device)
 
+
 def ottieni_etero_data():
-
-
   request = requests.get(
     'https://whoteach-scraper-microservice-agpvmcasea-oc.a.run.app/user/ratingsData', auth=HTTPBasicAuth(
       'dbZjdqRpqCup@neo4j', '30bqlw8c325D1AtK'), headers={'Accept': 'application/json'})
@@ -63,27 +65,31 @@ def ottieni_etero_data():
   df.dropna(inplace=True)
   label_enc = LabelEncoder()
 
-
-
   df['enc_user'] = label_enc.fit_transform(df.userId)
   df['enc_item'] = label_enc.fit_transform(df.itemId)
-
 
   uri = "neo4j://34.154.222.156:7687"
   user = "neo4j"
   password = "Ontologia235g!"
   myNeo4j = MyNeo4j(uri, user, password)
-  results = myNeo4j.run_query('MATCH (u1:User{userId:"https://www.merlot.org/merlot/viewMember.htm?id=1374986"})-[r1:HAS_RATED]-(m1:Article)-[r2:HAS_RATED]-(u2:User)-[r3:HAS_RATED]-(m2:Article) RETURN u1,r1,m1,r2,u2,r3,m2')
 
-############ Da levare
-  # for each element of df['enc_user'] print element
-  # for i in range(len(df['enc_user'])):
-  #   query = 'match(n:User {userId:"' + str(df['userId'][i]) + '"}) set n.user_id_enc="' + str(df['enc_user'][i]) + '"'
-  #   print(query)
-  #   myNeo4j.run_query(query)
-############ Da levare
+  results = myNeo4j.run_query(
+    'MATCH (u:User{userId:"https://www.merlot.org/merlot/viewMember.htm?id=248734"})-[r:HAS_RATED]-(a:Article) return u.encoding, a.encoding')
 
-  df = df[['enc_user', 'userId', 'enc_item', 'itemId', 'rate', 'title', 'difficulty', 'domain', 'min_age', 'language', 'type','format', 'keywords']]
+#################################################################
+  # Estrai i valori 'u.encoding' e 'a.encoding' dalla lista
+  a_encodings = [int(item['a.encoding']) for item in results if item['a.encoding'] is not None]
+  u_encodings = []
+  u = int(results[0]['u.encoding'])
+  for i in range(len(a_encodings)):
+    u_encodings.append(u)
+  tensor = torch.tensor([u_encodings, a_encodings])
+  print(tensor)
+#################################################################
+
+  df = df[
+    ['enc_user', 'userId', 'enc_item', 'itemId', 'rate', 'title', 'difficulty', 'domain', 'min_age', 'language', 'type',
+     'format', 'keywords']]
 
   df_items = df.groupby('enc_item').first()[
     ['title', 'language', 'domain', 'format', 'type', 'difficulty', 'min_age', 'keywords']]
@@ -122,7 +128,7 @@ def ottieni_etero_data():
     'user', 'rates', 'item'].edge_label_index = edge_index
 
   print(data[
-    'user', 'rates', 'item'].edge_label_index)
+          'user', 'rates', 'item'].edge_label_index)
 
   data = ToUndirected()(data)
 
@@ -131,24 +137,21 @@ def ottieni_etero_data():
 
   print(data['user', 'rates', 'item'].edge_label_index)
 
-
   return data
 
 
 if __name__ == '__main__':
-
   data = ottieni_etero_data()
   data_clone = data.clone()
   final_hetero_data, final_predictions, model = allAlberto(data_clone)
 
-
-
-  edge = [torch.tensor(311),torch.tensor(872)]
-  prediction_index = get_index_starting_from_nodes(data['user', 'rates', 'item'].edge_index , edge)
+  edge = [torch.tensor(311), torch.tensor(872)]
+  prediction_index = get_index_starting_from_nodes(data['user', 'rates', 'item'].edge_index, edge)
   print(prediction_index)
 
-  montecarlo = MonteCarlo(heterodata=data, edge_index=data['user', 'rates', 'item'].edge_index, deepnes_of_node_expansion=int(2),
-                                        min_graph_number_of_edges=int(200), model=model,
-                                        prediction_to_evaluate_index=int(prediction_index), edge=edge,
-                                        number_of_brother=0)
+  montecarlo = MonteCarlo(heterodata=data, edge_index=data['user', 'rates', 'item'].edge_index,
+                          deepnes_of_node_expansion=int(2),
+                          min_graph_number_of_edges=int(2), model=model,
+                          prediction_to_evaluate_index=int(prediction_index), edge=edge,
+                          number_of_brother=0)
   montecarlo.search()
