@@ -6,6 +6,7 @@ import defensive_programming
 import utility
 from model_ml import predict_with_GNN
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+import torch
 
 ## Da rimuovere in produzione
 def verifica_colonna(tensore, colonna):
@@ -16,8 +17,6 @@ def verifica_colonna(tensore, colonna):
     if torch.equal(tensore[:, j, None], colonna):
       return True
   return False
-
-
 def generateallchildren(columnindex, edge_index):
   output = []
   removed_columns = []
@@ -27,8 +26,6 @@ def generateallchildren(columnindex, edge_index):
       output.append(newtensor)
       removed_columns.append(i)
   return output, removed_columns
-
-
 def remove_random_column(tensor, index_to_not_remove):
   num_columns = tensor.shape[1]
   random_index = random.randint(0, num_columns - 1)
@@ -37,8 +34,6 @@ def remove_random_column(tensor, index_to_not_remove):
   if random_index < index_to_not_remove:
     index_to_not_remove = index_to_not_remove - 1
   return torch.cat((tensor[:, :random_index], tensor[:, random_index + 1:]), dim=1), random_index, index_to_not_remove
-
-
 def back_propagate_through_all_path(dictionary, win, visited):
   for key in dictionary:
     if type(dictionary[key]) == dict:
@@ -50,18 +45,11 @@ def back_propagate_through_all_path(dictionary, win, visited):
         dictionary[key] += visited
 
   return dictionary
-
-
 def get_index_starting_from_nodes(edge_index, edge):
   for i in range(edge_index.shape[1]):
     if edge_index[:, i][0] == edge[0].item() and edge_index[:, i][1] == edge[1].item():
       return i
   return None
-
-
-import torch
-
-
 def find_sub_edge_positions(edge_index, sub_edge_index):
 
   positions = []
@@ -75,8 +63,6 @@ def find_sub_edge_positions(edge_index, sub_edge_index):
         positions.append(j)
 
   return positions
-
-
 
 #@LogMethodCalls
 class MonteCarlo:
@@ -131,16 +117,10 @@ class MonteCarlo:
     data = self.data.clone()  ## A ogni nuova simulazione di montecarlo si riparte con il grafo originale
     list_of_index = list(range(len(edge_index[0])))
 
-
-####TODO da mettere controlli a destra e sinistra
-##TODO qui va tagliato l'edge_index levandogli i nodi che compaiono nella stringa node_id
-
     list_of_edges_to_remove = node_id.split('_')
     list_of_edges_to_remove = list(map(int, list_of_edges_to_remove))
     list_of_edges_to_keep = [x for x in list_of_index if x not in list_of_edges_to_remove]
     edge_index = edge_index[:, list_of_edges_to_keep]
-
-####################################################################
 
     while edge_index.shape[1] > self.min_graph_number_of_edges:
 

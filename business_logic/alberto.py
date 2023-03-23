@@ -12,7 +12,6 @@ from montecarlo import MonteCarlo
 from neo4j_queries import MyNeo4j
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
 def get_index_starting_from_nodes(edge_index, edge):
   for i in range(edge_index.shape[1]):
     if edge_index[:, i][0] == edge[0].item() and edge_index[:, i][1] == edge[1].item():
@@ -31,7 +30,6 @@ def Encoder(data, metadata):
   for i, m_lang in enumerate(items):
     x[i, mapping[m_lang]] = 1
   return x.to(device)
-
 
 def ottieni_etero_data():
 

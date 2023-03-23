@@ -34,7 +34,6 @@ def parse_data(data):
     cols.append(int(item['m2']['name']))
   return torch.tensor([rows, cols]), torch.tensor(labels)
 
-
 def remove_duplicate_columns(tensor_indices, tensor_label):
   tensor_t = tensor_indices.t()
   unique_tensor, indices = torch.unique(tensor_t, return_inverse=True, dim=0)
@@ -50,7 +49,6 @@ def remove_duplicate_columns(tensor_indices, tensor_label):
       continue
 
   return unique_tensor, new_tensor_label
-
 
 class MyNeo4j:
 

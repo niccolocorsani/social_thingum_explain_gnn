@@ -1,9 +1,8 @@
 from neo4j import GraphDatabase
-import torch
 import utility
 
 
-class App:
+class Neo4j:
 
   def __init__(self, uri, user, password):
     self.uri = uri
@@ -51,7 +50,7 @@ if __name__ == "__main__":
   uri = "neo4j://34.154.222.156:7687"
   user = "neo4j"
   password = "Ontologia235g!"
-  app = App(uri, user, password)
+  app = Neo4j(uri, user, password)
 
 
 #### Carica dati
@@ -59,7 +58,6 @@ if __name__ == "__main__":
   data, edge_index = utility.read_data()
   edge_index = data['user', 'rates', 'item'].edge_index
   edge_label = data['user', 'rates', 'item'].edge_label
-
   print(edge_index.shape)
   app.load_data_to_neo4j(edge_index=edge_index, edge_label=edge_label)
 #### Carica dati
