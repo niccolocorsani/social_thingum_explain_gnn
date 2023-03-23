@@ -73,6 +73,7 @@ def ottieni_etero_data():
   user = "neo4j"
   password = "Ontologia235g!"
   myNeo4j = MyNeo4j(uri, user, password)
+  results = myNeo4j.run_query('MATCH (u1:User{userId:"https://www.merlot.org/merlot/viewMember.htm?id=1374986"})-[r1:HAS_RATED]-(m1:Article)-[r2:HAS_RATED]-(u2:User)-[r3:HAS_RATED]-(m2:Article) RETURN u1,r1,m1,r2,u2,r3,m2')
 
 ############ Da levare
   # for each element of df['enc_user'] print element
@@ -139,6 +140,8 @@ if __name__ == '__main__':
   data = ottieni_etero_data()
   data_clone = data.clone()
   final_hetero_data, final_predictions, model = allAlberto(data_clone)
+
+
 
   edge = [torch.tensor(311),torch.tensor(872)]
   prediction_index = get_index_starting_from_nodes(data['user', 'rates', 'item'].edge_index , edge)
