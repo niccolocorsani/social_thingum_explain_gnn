@@ -80,7 +80,7 @@ class MonteCarlo:
     self.edge = edge
     self.number_of_brother = number_of_brother
 
-    positions = find_sub_edge_positions(self.data['user', 'rates', 'item'].edge_index, self.edge_index)
+    positions = find_sub_edge_positions(self.data['user', 'rates', 'item'].edge_index, self.edge_index) ## TODO Questa funzione funziona, ma è molto lenta, velocizzarla
 
     self.data = self.data.edge_subgraph({
       'rates': torch.tensor(positions),
