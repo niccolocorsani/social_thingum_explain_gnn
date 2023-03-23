@@ -14,11 +14,6 @@ class MyWindow(QWidget):
     # Creazione dei bottoni
     self.button1 = QPushButton('Aggiorna Json, MySQL, BigQuery')
 
-
-
-
-
-
     # Creazione delle label
     self.label1 = QLabel(
       'La seguente feature permette di creare il Json a partire dai file di log.txt,\n successivmanete viene creato il DB Schema MySQL e aggiornati i dati di conseguenza. \n Infine viene trasferita la logica di MySQL su BigQuery.')
