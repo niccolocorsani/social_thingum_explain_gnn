@@ -61,8 +61,12 @@ RUN pip install mysql
 
 RUN pip install Flask
 
-# Copia la cartella business_logic nella directory di lavoro
-COPY ./business_logic ./business_logic
+COPY ./business_logic/model_ml ./business_logic/model_ml
+COPY ./business_logic/montecarlo ./business_logic/montecarlo
+COPY ./business_logic/neo4j_queries ./business_logic/neo4j_queries
+COPY ./business_logic/utility ./business_logic/utility
+
+
 
 # Espone la porta su cui l'applicazione sarà in ascolto (modificare il numero di porta in base alle proprie esigenze)
 EXPOSE 8080

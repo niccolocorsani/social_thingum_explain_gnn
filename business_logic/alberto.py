@@ -1,3 +1,4 @@
+## Dipendenze di terzi
 import pandas as pd
 import requests
 import torch
@@ -7,6 +8,7 @@ from sklearn.preprocessing import LabelEncoder
 import json
 from sentence_transformers import SentenceTransformer
 from requests.auth import HTTPBasicAuth
+## Dipendenze mie
 from model_ml import allAlberto
 from montecarlo import MonteCarlo
 from neo4j_queries import MyNeo4j
