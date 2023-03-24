@@ -61,10 +61,11 @@ RUN pip install mysql
 
 RUN pip install Flask
 
-COPY ./business_logic/model_ml ./business_logic/model_ml
-COPY ./business_logic/montecarlo ./business_logic/montecarlo
-COPY ./business_logic/neo4j_queries ./business_logic/neo4j_queries
-COPY ./business_logic/utility ./business_logic/utility
+COPY ./business_logic/model_ml.py ./business_logic/model_ml.py
+COPY ./business_logic/montecarlo.py ./business_logic/montecarlo.py
+COPY ./business_logic/neo4j_queries.py ./business_logic/neo4j_queries.py
+COPY ./business_logic/utility.py ./business_logic/utility.py
+COPY ./business_logic/controller.py ./business_logic/controller.py
 
 
 
