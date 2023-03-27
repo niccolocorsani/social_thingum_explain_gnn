@@ -2,9 +2,9 @@
 FROM python:3.9.16
 
 # Installa libGL
-#RUN apt-get update && apt-get install -y libgl1-mesa-glx
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
-#RUN apt-get update && apt-get install -y libxkbcommon0
+RUN apt-get update && apt-get install -y libxkbcommon0
 
 # Crea una directory di lavoro
 WORKDIR /app
@@ -31,9 +31,9 @@ RUN pip install --upgrade pip  \
                             && echo 'istallazione torch-geometric completata'  \
 
 
-#RUN pip install --no-cache-dir  PyQt6
+RUN pip install --no-cache-dir  PyQt6
 
-#RUN pip install  PyQt6~=6.4.2
+RUN pip install  PyQt6~=6.4.2
 
 RUN pip install  --no-cache-dir pandas==1.5.3
 
