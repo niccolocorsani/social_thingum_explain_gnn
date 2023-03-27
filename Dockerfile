@@ -61,6 +61,8 @@ RUN pip install neo4j
 
 RUN pip install Flask
 
+
+COPY ./business_logic/alberto.py ./business_logic/alberto.py
 COPY ./business_logic/model_ml.py ./business_logic/model_ml.py
 COPY ./business_logic/montecarlo.py ./business_logic/montecarlo.py
 COPY ./business_logic/neo4j_queries.py ./business_logic/neo4j_queries.py
