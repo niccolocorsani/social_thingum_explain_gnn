@@ -2,9 +2,9 @@
 FROM python:3.9.16
 
 # Installa libGL
-#RUN apt-get update && apt-get install -y libgl1-mesa-glx
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
-#RUN apt-get update && apt-get install -y libxkbcommon0
+RUN apt-get update && apt-get install -y libxkbcommon0
 
 # Crea una directory di lavoro
 WORKDIR /app
@@ -43,7 +43,7 @@ RUN pip install sentence-transformers
 
 #RUN pip install google-cloud-bigquery==3.7.0
 
-RUN pip install protobuf==3.20.3
+#RUN pip install protobuf==3.20.3
 
 #RUN pip install neo4j==5.6.0
 
