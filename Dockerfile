@@ -43,7 +43,7 @@ RUN pip install sentence-transformers
 
 #RUN pip install google-cloud-bigquery==3.7.0
 
-#RUN pip install protobuf==3.20.3
+RUN pip install protobuf==3.20.3
 
 #RUN pip install neo4j==5.6.0
 
