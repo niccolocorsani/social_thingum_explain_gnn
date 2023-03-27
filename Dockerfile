@@ -2,9 +2,9 @@
 FROM python:3.9.16
 
 # Installa libGL
-RUN apt-get update && apt-get install -y libgl1-mesa-glx
+#RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
-RUN apt-get update && apt-get install -y libxkbcommon0
+#RUN apt-get update && apt-get install -y libxkbcommon0
 
 # Crea una directory di lavoro
 WORKDIR /app
@@ -49,7 +49,7 @@ RUN pip install sentence-transformers
 
 #RUN pip install mysql-connector-python==8.0.32
 
-#RUN pip install tqdm~=4.65.0
+RUN pip install tqdm~=4.65.0
 
 #RUN pip install scikit-learn~=1.2.2
 
