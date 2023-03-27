@@ -31,7 +31,7 @@ RUN pip install --upgrade pip  \
                             && echo 'istallazione torch-geometric completata'  \
 
 
-RUN pip install --no-cache-dir  PyQt6
+#RUN pip install --no-cache-dir  PyQt6
 
 RUN pip install  PyQt6~=6.4.2
 
