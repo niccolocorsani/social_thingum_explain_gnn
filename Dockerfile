@@ -33,11 +33,11 @@ RUN pip install --upgrade pip  \
 
 #RUN pip install --no-cache-dir  PyQt6
 
-RUN pip install  PyQt6~=6.4.2
+#RUN pip install  PyQt6~=6.4.2
+RUN pip install sentence-transformers
 
 RUN pip install  --no-cache-dir pandas==1.5.3
 
-RUN pip install sentence-transformers
 
 #RUN pip install mysql~=0.0.3
 
