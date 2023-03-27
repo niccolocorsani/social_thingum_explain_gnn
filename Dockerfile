@@ -34,20 +34,20 @@ RUN pip install --upgrade pip  \
 #RUN pip install --no-cache-dir  PyQt6
 
 #RUN pip install  PyQt6~=6.4.2
+
 RUN pip install sentence-transformers
 
-RUN pip install  --no-cache-dir pandas==1.5.3
-
+RUN pip install  --no-cache-dir pandas==1.5.3 ## Il fatto che era la prima istallazione gli dava noia
 
 #RUN pip install mysql~=0.0.3
 
-RUN pip install google-cloud-bigquery==3.7.0
+#RUN pip install google-cloud-bigquery==3.7.0
 
 RUN pip install protobuf==3.20.3
 
 RUN pip install neo4j==5.6.0
 
-RUN pip install mysql-connector-python==8.0.32
+#RUN pip install mysql-connector-python==8.0.32
 
 RUN pip install tqdm~=4.65.0
 
@@ -57,7 +57,7 @@ RUN pip install numpy~=1.24.2
 
 RUN pip install neo4j
 
-RUN pip install mysql
+#RUN pip install mysql
 
 RUN pip install Flask
 
