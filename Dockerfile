@@ -62,14 +62,15 @@ RUN pip install neo4j
 RUN pip install Flask
 
 
-COPY ./business_logic/alberto.py ./business_logic/alberto.py
 COPY ./business_logic/model_ml.py ./business_logic/model_ml.py
 COPY ./business_logic/montecarlo.py ./business_logic/montecarlo.py
 COPY ./business_logic/neo4j_queries.py ./business_logic/neo4j_queries.py
 COPY ./business_logic/utility.py ./business_logic/utility.py
 COPY ./business_logic/controller.py ./business_logic/controller.py
+COPY ./business_logic/alberto.py ./business_logic/alberto.py
 
 
+RUN sleep 10
 
 # Espone la porta su cui l'applicazione sarà in ascolto (modificare il numero di porta in base alle proprie esigenze)
 EXPOSE 8080
