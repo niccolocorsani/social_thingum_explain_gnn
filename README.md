@@ -68,7 +68,3 @@ Per fare eseguire lo script correttamente è quindi solo necessario che venga es
 
 
 
-Deploya un'istanza di Cloud Run utilizzando l'immagine Docker appena creata. L'istanza verrà creata con il nome specificato nella variabile CLOUD_RUN_SERVICE_NAME.
-
-
-
