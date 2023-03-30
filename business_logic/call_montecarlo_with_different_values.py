@@ -15,7 +15,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == '__main__':
 
 
-  prediction_index = 177
+  prediction_index = 252
 
   number_of_brothers = 2
 
@@ -46,14 +46,14 @@ if __name__ == '__main__':
   deepnes = 2
   min_edges = 4
 
-  for i in range(5):
+  for i in range(60):
     print(i)
     deepnes = deepnes + 5
     #min_edges = min_edges + i
 
     monte_carlo = MonteCarlo(heterodata=data, edge_index=edge_index, deepnes_of_node_expansion=int(deepnes),
                              min_graph_number_of_edges=int(min_edges), model=model,
-                             prediction_to_evaluate_index=int(prediction_index), edge=edge,
+                              edge=edge,
                              number_of_brother=number_of_brothers)
     print('istanza montecarlo creata')
     win_dic, list_of_final_dic = monte_carlo.search()

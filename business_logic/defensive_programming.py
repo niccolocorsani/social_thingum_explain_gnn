@@ -25,8 +25,10 @@ class DefensiveProgramming(QMessageBox):
       msgBox.exec()
   @staticmethod
   def launch_allert(self, text_alert):
+    app = QApplication(sys.argv)
     msgBox = QMessageBox()
     msgBox.setText(text_alert)
     msgBox.exec()
+    app.exec()
 
 

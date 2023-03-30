@@ -31,27 +31,15 @@ RUN pip install --upgrade pip  \
                             && echo 'istallazione torch-geometric completata'  \
 
 
-#RUN pip install --no-cache-dir  PyQt6
-
-#RUN pip install  PyQt6~=6.4.2
-
-RUN pip install requests
+RUN pip install requests   ## Il primo pip install non lo prende, per questo ne ho messo uno leggero
 
 RUN pip install sentence-transformers
 
 RUN pip install  --no-cache-dir pandas==1.5.3 ## Il fatto che era la prima istallazione gli dava noia
 
-#RUN pip install mysql~=0.0.3
-
-#RUN pip install google-cloud-bigquery==3.7.0
-
-#RUN pip install protobuf==3.20.3
 
 RUN pip install neo4j==5.6.0
 
-#RUN pip install mysql-connector-python==8.0.32
-
-#RUN pip install tqdm~=4.65.0
 
 RUN pip install scikit-learn~=1.2.2
 
