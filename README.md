@@ -51,7 +51,7 @@ Di seguito una breve spiegazione del flusso:
 
 Il file di Github action svolge una serie di azioni:
 
-- Accede a GCR utilizzando le credenziali dell'account di servizio fornito attraverso la variabile segreta secrets.GCR_SERVICE_ACCOUNT_KEY.
+ utilizzando le credenziali dell'account di servizio fornito attraverso la variabile segreta secrets.GCR_SERVICE_ACCOUNT_KEY.
 
 - Compila un'immagine Docker utilizzando il Dockerfile presente nel repository. L'immagine verrà etichettata con il nome e la versione specificati nelle variabili d'ambiente IMAGE_NAME e IMAGE_VERSION.
 
