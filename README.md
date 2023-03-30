@@ -41,6 +41,16 @@ Di seguito un'altra gif che rappresenta la sequenza di azioni svolte:
 [presentation.pptx](https://github.com/SocialThingsIT/explainable/files/11030731/presentation.pptx)
 
 
+Il sistema oltre allo svolgimento dell'algoritmo MonteCarlo prevede una serie di pipeline per l'automazione di certi processi.
+
+Una delle tante pipeline è quelle che riguarda l'automazione della creazione e caricamento di un container docker su Google Cloud Run.
+Il codice relativo a ciò si trova al path ./.github/workflows/push_container_to_gcr.yml .
+
+Di seguito una breve spiegazione del flusso:
+
+Il file di Github action svolge una serie di azioni:
+
+
 
 
 
