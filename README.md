@@ -51,8 +51,21 @@ Di seguito una breve spiegazione del flusso:
 
 Il file di Github action svolge una serie di azioni:
 
+- Accede a GCR utilizzando le credenziali dell'account di servizio fornito attraverso la variabile segreta secrets.GCR_SERVICE_ACCOUNT_KEY.
+
+- Compila un'immagine Docker utilizzando il Dockerfile presente nel repository. L'immagine verrà etichettata con il nome e la versione specificati nelle variabili d'ambiente IMAGE_NAME e IMAGE_VERSION.
+
+- Etichetta l'immagine con un nome specifico per il repository GCR utilizzando la variabile GCR_REPOSITORY_NAME.
+
+- Carica l'immagine sul repository GCR specificato in GCR_PROJECT_ID.
+
+- Attraverso google-github-actions ottiene le credenziali per deployare su google cloud run
+
+- Fa il deploy del container su google cloud run
 
 
+
+Deploya un'istanza di Cloud Run utilizzando l'immagine Docker appena creata. L'istanza verrà creata con il nome specificato nella variabile CLOUD_RUN_SERVICE_NAME.
 
 
 
