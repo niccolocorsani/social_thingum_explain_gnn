@@ -40,6 +40,7 @@ Di seguito un'altra gif che rappresenta la sequenza di azioni svolte:
 
 [presentation.pptx](https://github.com/SocialThingsIT/explainable/files/11030731/presentation.pptx)
 
+#Github action workflow
 
 Il sistema oltre allo svolgimento dell'algoritmo MonteCarlo prevede una serie di pipeline per l'automazione di certi processi.
 
