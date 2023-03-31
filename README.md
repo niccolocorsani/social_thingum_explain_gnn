@@ -76,4 +76,5 @@ secrets.GCR_SERVICE_ACCOUNT_KEY:
 
 secrets.GCLOUD_AUTH:
 
+<img width="269" alt="Schermata 2023-03-31 alle 12 45 42" src="https://user-images.githubusercontent.com/126795492/229099897-414e825d-92cb-4468-9636-afab07704541.png">
 
