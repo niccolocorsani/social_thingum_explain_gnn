@@ -94,7 +94,7 @@ class MonteCarlo:
     self.prediction_to_evaluate_index = get_index_starting_from_nodes(edge_index=self.data['user', 'rates', 'item'].edge_index, edge=self.edge)
     self.value_of_prediction = self.data['user', 'rates', 'item'].edge_label[self.prediction_to_evaluate_index]  ##  poi da rimuovere in produzione, solo per debuggare
     self.edge_index = self.data['user', 'rates', 'item'].edge_index
-    print('Dimensione edge_index' + str(self.edge_index[0]))
+    print('Dimensione edge_index' + str(len(self.edge_index[0])))
     print('Edge per cui sto facendo explainability:' + str(self.edge))
     print('fine creazione istanza montecarlo')
 
@@ -164,17 +164,17 @@ class MonteCarlo:
         dim_grafo_prima = len(new_data['user', 'rates', 'item'].edge_index[0])
       except Exception as e:
         pass
-## Da rimuovere in produzione
-      # child_id = node_id + '_' + str(index)
-      # node_id = child_id
-## Da rimuovere in produzione
+
       try:
         debug_data = new_data.clone()
       except:
         pass
+
+
+
 ## Da rimuovere in produzione
 
-## Questo si può spostare più in giù, non deve essere eseguito tutte le volte
+      ## Questo si può spostare più in giù, non deve essere eseguito tutte le volte
       new_data = data.edge_subgraph({
         'rates': torch.tensor(list_of_index),
         'rev_rates': torch.tensor(list_of_index),
@@ -183,6 +183,14 @@ class MonteCarlo:
 
       new_data['user', 'rates', 'item'].edge_label_index = new_data[
         'user', 'rates', 'item'].edge_index
+
+## Da rimuovere in produzione Questo è uno dei controlli più importanti
+
+      if not torch.eq(new_data['user', 'rates', 'item'].edge_index, edge_index).all():
+        defensive_programming.DefensiveProgramming.launch_alert(self,
+                                                                "I tensori new_data['user', 'rates', 'item'].edge_index e edge_index sono diversi.")
+
+## Da rimuovere in produzione
 
 ## Da rimuovere in produzione
       try:
@@ -197,10 +205,10 @@ class MonteCarlo:
                                                                  'self.edge_index non contiene più l arco su cui faccio explainability')
 ## Da rimuovere in produzione
 ## Da rimuovere in produzione
-      # if verifica_colonna(new_data[
-      #                       'user', 'rates', 'item'].edge_index, self.edge) == False:
-      #   defensive_programming.DefensiveProgramming.launch_allert(self,
-      #                                                            'self.edge_index non contiene più l arco su cui faccio explainability')
+      if verifica_colonna(new_data[
+                            'user', 'rates', 'item'].edge_index, self.edge) == False:
+        defensive_programming.DefensiveProgramming.launch_allert(self,
+                                                                 'self.edge_index non contiene più l arco su cui faccio explainability')
       ##TODO Mettere controllo del tipo: new_data['user', 'rates', 'item'].edge_index deve contenere tutti gli torch.unique(edge_index[0]) nodi
 ## Da rimuovere in produzione
       try:
@@ -258,7 +266,7 @@ class MonteCarlo:
       win = (8 + random_value)
 
 
-    self.list_of_final_leaf_graph.append({'edge_index': edge_index, 'win': win, 'diff':diff})
+    self.list_of_final_leaf_graph.append({'edge_index': new_data['user', 'rates', 'item'].edge_index, 'win': win, 'diff':diff})
     self.tree = self.back_propagate(self.tree, parent_node_id, win)
 
     return
@@ -311,6 +319,7 @@ class MonteCarlo:
         self.simulation_montecarlo(node_id=best_child_id,
                                    edge_index=self.edge_index)
         iterations = iterations + 1
+        print(iterations)
 
         if iterations % 100 == 0:
           print(iterations)
