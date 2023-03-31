@@ -68,7 +68,7 @@ Per fare eseguire lo script correttamente è quindi solo necessario che venga es
 
 Di seguito il procedimento per ottenere le chiavi:
 
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/126795492/229078233-dd0a2b04-ae2c-4e76-9b91-b7cf6b5c761c.gif)
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/126795492/229080679-881819ec-4073-499e-af39-cfd60a6f2aef.gif)
 
 
 
