@@ -160,6 +160,8 @@ def ottieni_etero_data(source_node_userID, target_node_itemID):
   encoded_types = Encoder(df_items, 'type')
   encoded_domains = Encoder(df_items, 'domain')
 
+
+
   age_encoded = torch.tensor(list(df_items.min_age), device=device).unsqueeze(1)
   difficulty_encoded = torch.tensor(list(df_items.difficulty), device=device).unsqueeze(1)
   item_x = torch.cat(
