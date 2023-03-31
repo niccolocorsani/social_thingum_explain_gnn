@@ -38,6 +38,8 @@ RUN pip install sentence-transformers
 RUN pip install  --no-cache-dir pandas==1.5.3 ## Il fatto che era la prima istallazione gli dava noia
 
 
+
+
 RUN pip install neo4j==5.6.0
 
 
