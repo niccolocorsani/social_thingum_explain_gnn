@@ -66,5 +66,10 @@ Il file di Github action svolge una serie di azioni:
 
 Per fare eseguire lo script correttamente è quindi solo necessario che venga eseguito un push sul repository remoto e che su tale repository siano impostati i due segreti precedentemente accennati: secrets.GCR_SERVICE_ACCOUNT_KEY, secrets.GCLOUD_AUTH
 
+Di seguito il procedimento per ottenere le chiavi:
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/126795492/229078233-dd0a2b04-ae2c-4e76-9b91-b7cf6b5c761c.gif)
+
+
 
 
