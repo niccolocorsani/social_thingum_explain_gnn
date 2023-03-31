@@ -70,6 +70,10 @@ Di seguito il procedimento per ottenere le chiavi:
 
 ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/126795492/229080679-881819ec-4073-499e-af39-cfd60a6f2aef.gif)
 
+secrets.GCR_SERVICE_ACCOUNT_KEY:
 
+<img width="257" alt="Schermata 2023-03-31 alle 12 01 31" src="https://user-images.githubusercontent.com/126795492/229094842-0ede5b43-c836-47bd-afaf-2302af1bad75.png">
+
+secrets.GCLOUD_AUTH:
 
 
