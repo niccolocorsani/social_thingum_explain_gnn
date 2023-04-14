@@ -2,7 +2,7 @@ from neo4j import GraphDatabase
 import utility
 
 
-class Neo4j:
+class Neo4jCRUD:
 
   def __init__(self, uri, user, password):
     self.uri = uri
@@ -21,6 +21,7 @@ class Neo4j:
       user_nodes = set(edge_index[0].tolist())
       for user in user_nodes:
         query = "CREATE (:User {name: $name})"
+        print('creato utente')
         session.run(query, name=str(user))
 
       # Creazione dei nodi film
@@ -28,6 +29,8 @@ class Neo4j:
       for movie in movie_nodes:
         query = "CREATE (:Movie {name: $name})"
         session.run(query, name=str(movie))
+        print('creato Movie')
+
 
       # Creazione delle relazioni tra utenti e film
       for i in range(edge_index.shape[1]):
@@ -36,6 +39,7 @@ class Neo4j:
         rating = str(edge_label[i].item())
         query = "MATCH (u:User {name: $user}), (m:Movie {name: $movie}) CREATE (u)-[:RATES {rating: $rating}]->(m)"
         session.run(query, user=user, movie=movie, rating=rating)
+        print('creata relazione')
 
   def delete_all_nodes_and_relationships(self):
     with GraphDatabase.driver(self.uri, auth=(self.user, self.password)) as driver:
@@ -46,11 +50,12 @@ class Neo4j:
 
 if __name__ == "__main__":
 
-  # uri = "neo4j+s://3b8c198b.databases.neo4j.io"
-  uri = "neo4j://34.154.222.156:7687"
-  user = "neo4j"
-  password = "Ontologia235g!"
-  app = Neo4j(uri, user, password)
+
+
+  uri = "bolt://localhost:7687"
+  user = 'neo4j'
+  password = 'neo4j'
+  app = Neo4jCRUD(uri, user, password)
 
 
 #### Carica dati

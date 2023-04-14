@@ -65,15 +65,14 @@ class MyNeo4j:
       return result.data()
 
 def get_subgraph_from_neo4j_to_explainability(user_number, number_of_brothers):
+
   uri = "bolt://localhost:7687"
   user = "neo4j"
-  password = "3X1fJlNK_hQ2qIM8yn-Iz4tcOhsQNHgR7W8TVkatKwA"
+  password = "neo4jneo4j"
   myNeo4j = MyNeo4j(uri, user, password)
 
   query_retrive_users = f'MATCH (u:User {{name: "{user_number}"}})-[r:RATES]->(n)<-[:RATES]-(u1) RETURN u1.name'
-
   results = myNeo4j.run_query(query_retrive_users)
-
   users = []
   for element in results:
     # if users contain element['u1.name'] then continue
@@ -81,17 +80,18 @@ def get_subgraph_from_neo4j_to_explainability(user_number, number_of_brothers):
       continue
     users.append(element['u1.name'])
 
+
+  print('Query dei brother eseguita')
   ## eliminate the last 55 users of 57 total users
   users = users[:-(len(users) - number_of_brothers)]
-
   user_filter = ' OR '.join([f'u2.name = "{name}"' for name in users])
-
   query = f'MATCH (u1:User {{name: "{user_number}"}})-[r1:RATES]->(m1)<-[r2:RATES]-(u2)-[r3:RATES]->(m2) WHERE {user_filter} RETURN u1, r1.rating, m1, r2.rating, u2, m2, r3.rating'
-
-  print(query)
+  print("Eseguo query: "+query)
   results = myNeo4j.run_query(query)
+  print('Query eseguita, inzio parsing')
   edge_index, edge_label = parse_data(results)
   edge_index, edge_label = remove_duplicate_columns(edge_index, edge_label)
+
   utility.write_to_graph_format(edge_index, ROOT_DIR + '/starter_graph' + '.json')
   print('Fine caricamento dati da neo4j')
 
@@ -99,9 +99,11 @@ def get_subgraph_from_neo4j_to_explainability(user_number, number_of_brothers):
 
 def get_subgraph_from_neo4j_to_explainability_starting_from_1_lv_subgraph(user_number):
 
-  uri = "neo4j://34.154.222.156:7687"
-  user = "neo4j"
-  password = "Ontologia235g!"
+
+  uri = "bolt://localhost:7687"
+  user = 'neo4j'
+  password = 'neo4j'
+
   myNeo4j = MyNeo4j(uri, user, password)
 
  # query = f'MATCH (u:User {{name: "{user_number}"}})-[r:RATES]->(n) RETURN u.name, n.name'
@@ -117,6 +119,7 @@ def get_subgraph_from_neo4j_to_explainability_starting_from_1_lv_subgraph(user_n
   print('Fine caricamento dati da neo4j')
 
   return edge_index, edge_label
+
 
 if __name__ == "__main__":
   get_subgraph_from_neo4j_to_explainability_starting_from_1_lv_subgraph('311')

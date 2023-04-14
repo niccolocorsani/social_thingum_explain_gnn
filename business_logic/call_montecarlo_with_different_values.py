@@ -16,9 +16,9 @@ if __name__ == '__main__':
 
 
 
-  prediction_index = 67
+  prediction_index = 55
 
-  number_of_brothers = 2
+  number_of_brothers = 3
 
   ## Cose da preprocessing
   device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
