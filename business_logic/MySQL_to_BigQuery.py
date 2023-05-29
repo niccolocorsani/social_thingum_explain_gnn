@@ -3,8 +3,6 @@ import mysql.connector
 import pandas as pd
 from google.cloud import bigquery
 from google.oauth2 import service_account
-
-
 def trasferisci_mysql_a_big_query():
   # Configurazione delle credenziali per accedere a MySQL
   mysql_config = {

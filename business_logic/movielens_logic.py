@@ -128,12 +128,13 @@ if __name__ == '__main__':
     defensive_programming.DefensiveProgramming.launch_alert(None,
                                                             "I tensori new_data['user', 'rates', 'item'].edge_index e edge_index sono diversi.")
 
-  edge = [torch.tensor(609), torch.tensor(6490)]
+  #edge = [torch.tensor(609), torch.tensor(6490)]
   #edge = [torch.tensor(1), torch.tensor(4607)]
   #edge = [torch.tensor(1), torch.tensor(5294)]
   #edge = [torch.tensor(1), torch.tensor(6235)]
   #edge = [torch.tensor(1), torch.tensor(6297)]
-  #edge = [torch.tensor(1), torch.tensor(6692)]
+  edge = [torch.tensor(1), torch.tensor(6692)]
+
   deepnes = 2
 
   for i in range(60):
@@ -145,7 +146,7 @@ if __name__ == '__main__':
                                      number_of_brother=1)
     print('istanza montecarlo creata')
     win_dic, list_of_final_dic = monte_carlo.search()
-    deepnes = deepnes + 60
+    deepnes = deepnes + 4
     print('fine montecarlo')
 
   run_all_pipeline_to_update_json_and_my_sql()
